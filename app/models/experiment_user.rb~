@@ -1,3 +1,0 @@
-class ExperimentUser < User
-  # attr_accessible :title, :body
-end
