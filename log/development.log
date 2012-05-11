@@ -1,0 +1,140 @@
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2012-05-11 12:35:54 +0200
+Served asset /rails.png - 304 Not Modified (39ms)
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2012-05-11 12:39:37 +0200
+Processing by Rails::InfoController#properties as */*
+  Rendered inline template (55.0ms)
+Completed 200 OK in 232ms (Views: 231.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2012-05-11 13:03:40 +0200
+Served asset /rails.png - 304 Not Modified (43ms)
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2012-05-11 13:03:47 +0200
+Processing by Rails::InfoController#properties as */*
+  Rendered inline template (50.0ms)
+Completed 200 OK in 216ms (Views: 215.0ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.0ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (140.4ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("schema_migrations")[0m
+  [1m[35m (156.0ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.0ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "pw" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.0ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120511110125')
+  [1m[36m (140.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("users")
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2012-05-11 13:05:12 +0200
+Served asset /rails.png - 304 Not Modified (1ms)
+
+
+Started GET "/rails/info/properties" for 127.0.0.1 at 2012-05-11 13:05:19 +0200
+Processing by Rails::InfoController#properties as */*
+  Rendered inline template (0.0ms)
+Completed 200 OK in 0ms (Views: 0.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2012-05-11 13:06:38 +0200
+Served asset /rails.png - 304 Not Modified (8ms)
+
+
+Started GET "/users" for 127.0.0.1 at 2012-05-11 13:06:55 +0200
+Processing by UsersController#index as HTML
+  [1m[36mUser Load (0.0ms)[0m  [1mSELECT "users".* FROM "users" [0m
+  Rendered users/index.html.erb within layouts/application (70.4ms)
+Compiled scaffolds.css  (94ms)  (pid 5016)
+Compiled users.css  (6ms)  (pid 5016)
+Compiled application.css  (207ms)  (pid 5016)
+Compiled jquery.js  (9ms)  (pid 5016)
+Compiled jquery_ujs.js  (2ms)  (pid 5016)
+Compiled users.js  (577ms)  (pid 5016)
+Compiled application.js  (884ms)  (pid 5016)
+Completed 200 OK in 1958ms (Views: 1644.9ms | ActiveRecord: 35.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-05-11 13:06:58 +0200
+Served asset /application.css - 200 OK (19ms)
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2012-05-11 13:06:58 +0200
+Served asset /users.css - 200 OK (6ms)
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2012-05-11 13:06:58 +0200
+Served asset /scaffolds.css - 200 OK (7ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2012-05-11 13:06:58 +0200
+Served asset /jquery.js - 200 OK (14ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2012-05-11 13:06:58 +0200
+Served asset /jquery_ujs.js - 200 OK (24ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2012-05-11 13:06:58 +0200
+Served asset /users.js - 200 OK (13ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-05-11 13:06:58 +0200
+Served asset /application.js - 200 OK (17ms)
+
+
+Started GET "/users/new" for 127.0.0.1 at 2012-05-11 13:07:02 +0200
+Processing by UsersController#new as HTML
+  Rendered users/_form.html.erb (22.0ms)
+  Rendered users/new.html.erb within layouts/application (74.0ms)
+Completed 200 OK in 113ms (Views: 97.0ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users" for 127.0.0.1 at 2012-05-11 13:07:15 +0200
+Processing by UsersController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"nuPzd7AsyuvCpGbOjTEepa08ejkfFk5RwfJvJ07hgok=", "user"=>{"name"=>"ablablabl", "email"=>"asadsysds", "pw"=>"ldaldsad"}, "commit"=>"Create User"}
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (187.0ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "name", "pw", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["created_at", Fri, 11 May 2012 11:07:15 UTC +00:00], ["email", "asadsysds"], ["name", "ablablabl"], ["pw", "ldaldsad"], ["updated_at", Fri, 11 May 2012 11:07:15 UTC +00:00]]
+  [1m[35m (106.0ms)[0m  commit transaction
+Redirected to http://localhost:3000/users/1
+Completed 302 Found in 309ms (ActiveRecord: 293.0ms)
+
+
+Started GET "/users/1" for 127.0.0.1 at 2012-05-11 13:07:15 +0200
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (1.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", "1"]]
+  Rendered users/show.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 30ms (Views: 24.0ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/users/1/edit" for 127.0.0.1 at 2012-05-11 13:07:19 +0200
+Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mUser Load (0.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", "1"]]
+  Rendered users/_form.html.erb (7.0ms)
+  Rendered users/edit.html.erb within layouts/application (14.0ms)
+Completed 200 OK in 39ms (Views: 36.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/1" for 127.0.0.1 at 2012-05-11 13:07:20 +0200
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (1.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", "1"]]
+  Rendered users/show.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 26ms (Views: 22.0ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/users/1/edit" for 127.0.0.1 at 2012-05-11 13:07:22 +0200
+Processing by UsersController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mUser Load (1.0ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", "1"]]
+  Rendered users/_form.html.erb (7.0ms)
+  Rendered users/edit.html.erb within layouts/application (13.0ms)
+Completed 200 OK in 37ms (Views: 34.0ms | ActiveRecord: 1.0ms)
