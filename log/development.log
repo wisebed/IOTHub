@@ -138,3 +138,208 @@ Processing by UsersController#edit as HTML
   Rendered users/_form.html.erb (7.0ms)
   Rendered users/edit.html.erb within layouts/application (13.0ms)
 Completed 200 OK in 37ms (Views: 34.0ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2012-05-11 14:58:54 +0200
+Served asset /rails.png - 200 OK (9ms)
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+  [1m[35m (0.9ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  CREATE TABLE "experiment_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120511111603')[0m
+  [1m[35m (3.6ms)[0m  commit transaction
+Migrating to CreateExperiments (20120511111802)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "experiments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120511111802')[0m
+  [1m[35m (1.8ms)[0m  commit transaction
+Migrating to CreateExperimentRuns (20120511121306)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TABLE "experiment_runs" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120511121306')[0m
+  [1m[35m (2.1ms)[0m  commit transaction
+Migrating to SorceryCore (20120525105339)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(255) NOT NULL, "email" varchar(255), "crypted_password" varchar(255), "salt" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+SQLite3::SQLException: table "users" already exists: CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(255) NOT NULL, "email" varchar(255), "crypted_password" varchar(255), "salt" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+Migrating to CreateExperiments (20120511111802)
+Migrating to CreateExperimentRuns (20120511121306)
+Migrating to SorceryCore (20120525105339)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(255) NOT NULL, "email" varchar(255), "crypted_password" varchar(255), "salt" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+SQLite3::SQLException: table "users" already exists: CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "username" varchar(255) NOT NULL, "email" varchar(255), "crypted_password" varchar(255), "salt" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+Migrating to CreateExperiments (20120511111802)
+Migrating to CreateExperimentRuns (20120511121306)
+Migrating to SorceryCore (20120525105339)
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+Migrating to CreateExperiments (20120511111802)
+Migrating to CreateExperimentRuns (20120511121306)
+Migrating to SorceryCore (20120525105339)
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  ALTER TABLE "user" ADD "email" varchar(255) DEFAULT NULL
+SQLite3::SQLException: no such table: user: ALTER TABLE "user" ADD "email" varchar(255) DEFAULT NULL
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+Migrating to CreateExperiments (20120511111802)
+Migrating to CreateExperimentRuns (20120511121306)
+Migrating to SorceryCore (20120525105339)
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+Migrating to CreateExperiments (20120511111802)
+Migrating to CreateExperimentRuns (20120511121306)
+Migrating to SorceryCore (20120525105339)
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  CREATE TEMPORARY TABLE "altered_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255), "pw" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "users"
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "altered_users" ("id","name","email","pw","created_at","updated_at") VALUES (1, 'ablablabl', 'asadsysds', 'ldaldsad', '2012-05-11 11:07:15.158203', '2012-05-11 11:07:15.158203')[0m
+  [1m[35m (1.4ms)[0m  DROP TABLE "users"
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255) NOT NULL, "pw" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("altered_users")
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "altered_users"[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "users" ("id","name","email","pw","created_at","updated_at") VALUES (1, 'ablablabl', 'asadsysds', 'ldaldsad', '2012-05-11 11:07:15.158203', '2012-05-11 11:07:15.158203')
+  [1m[36m (0.5ms)[0m  [1mDROP TABLE "altered_users"[0m
+  [1m[35m (5.1ms)[0m  ALTER TABLE "users" ADD "crypted_password" srtring DEFAULT NULL
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "users" ADD "salt" varchar(255) DEFAULT NULL[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120525105339')
+  [1m[36m (2.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.4ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("experiment_runs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("experiment_users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("experiments")
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+Migrating to CreateExperiments (20120511111802)
+Migrating to CreateExperimentRuns (20120511121306)
+Migrating to SorceryCore (20120525105339)
+Migrating to ChangeUserPasswordColumnName (20120525112605)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+Migrating to CreateExperiments (20120511111802)
+Migrating to CreateExperimentRuns (20120511121306)
+Migrating to SorceryCore (20120525105339)
+Migrating to ChangeUserPasswordColumnName (20120525112605)
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  rollback transaction
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+Migrating to CreateExperiments (20120511111802)
+Migrating to CreateExperimentRuns (20120511121306)
+Migrating to SorceryCore (20120525105339)
+Migrating to ChangeUserPasswordColumnName (20120525112605)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  rollback transaction
+  [1m[36m (0.2ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateUsers (20120511110125)
+Migrating to CreateExperimentUsers (20120511111603)
+Migrating to CreateExperiments (20120511111802)
+Migrating to CreateExperimentRuns (20120511121306)
+Migrating to SorceryCore (20120525105339)
+Migrating to ChangeUserPasswordColumnName (20120525112605)
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  CREATE TEMPORARY TABLE "altered_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255) NOT NULL, "password" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "crypted_password" , "salt" varchar(255)) 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("users")[0m
+  [1m[35m (0.1ms)[0m  SELECT * FROM "users"
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "altered_users" ("id","name","email","password","created_at","updated_at","crypted_password","salt") VALUES (1, 'ablablabl', 'asadsysds', 'ldaldsad', '2012-05-11 11:07:15.158203', '2012-05-11 11:07:15.158203', NULL, NULL)[0m
+  [1m[35m (0.4ms)[0m  DROP TABLE "users"
+  [1m[36m (0.2ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "email" varchar(255) NOT NULL, "password" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "crypted_password" , "salt" varchar(255)) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("altered_users")
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "altered_users"[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "users" ("id","name","email","password","created_at","updated_at","crypted_password","salt") VALUES (1, 'ablablabl', 'asadsysds', 'ldaldsad', '2012-05-11 11:07:15.158203', '2012-05-11 11:07:15.158203', NULL, NULL)
+  [1m[36m (0.4ms)[0m  [1mDROP TABLE "altered_users"[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120525112605')
+  [1m[36m (2.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.4ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("experiment_runs")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("experiment_users")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("experiments")
+
+
+Started GET "/login" for 127.0.0.1 at 2012-05-25 14:01:34 +0200
+Processing by SessionsController#new as HTML
+  Rendered sessions/new.html.erb within layouts/application (7.0ms)
+Compiled scaffolds.css  (25ms)  (pid 7330)
+Compiled sessions.css  (1ms)  (pid 7330)
+Compiled users.css  (2ms)  (pid 7330)
+Compiled application.css  (104ms)  (pid 7330)
+Compiled jquery.js  (2ms)  (pid 7330)
+Compiled jquery_ujs.js  (0ms)  (pid 7330)
+Compiled sessions.js  (351ms)  (pid 7330)
+Compiled users.js  (209ms)  (pid 7330)
+Compiled application.js  (668ms)  (pid 7330)
+Completed 200 OK in 899ms (Views: 898.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-05-25 14:01:35 +0200
+Served asset /application.css - 200 OK (12ms)
+
+
+Started GET "/assets/sessions.js?body=1" for 127.0.0.1 at 2012-05-25 14:01:35 +0200
+Served asset /sessions.js - 200 OK (2ms)
+
+
+Started GET "/assets/scaffolds.css?body=1" for 127.0.0.1 at 2012-05-25 14:01:35 +0200
+Served asset /scaffolds.css - 200 OK (1ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2012-05-25 14:01:35 +0200
+Served asset /jquery_ujs.js - 200 OK (4ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2012-05-25 14:01:35 +0200
+Served asset /jquery.js - 200 OK (32ms)
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2012-05-25 14:01:35 +0200
+Served asset /users.css - 200 OK (2ms)
+
+
+Started GET "/assets/sessions.css?body=1" for 127.0.0.1 at 2012-05-25 14:01:35 +0200
+Served asset /sessions.css - 200 OK (1ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2012-05-25 14:01:35 +0200
+Served asset /users.js - 200 OK (1ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-05-25 14:01:35 +0200
+Served asset /application.js - 200 OK (6ms)
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2012-05-25 14:01:47 +0200
+Served asset /rails.png - 200 OK (2ms)
