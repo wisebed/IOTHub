@@ -1,0 +1,14 @@
+<div id="header">
+  <div id="login_or_user">
+  <% if current_user %>
+    <div id="user_info">
+      <% render 'layouts/user_info' %>
+    </div>
+  <% else %>
+    <div id="login_form">
+      <% render 'layouts/login_form' %>
+    </div>
+  <% end %>
+  <br/>
+  </div>
+</div>
