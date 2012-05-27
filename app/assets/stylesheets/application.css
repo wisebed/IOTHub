@@ -11,3 +11,25 @@
  *= require_self
  *= require_tree .
 */
+#header {
+  background: -moz-linear-gradient(#FAFAFA, #EAEAEA) repeat scroll 0 0 transparent;
+  background: -webkit-linear-gradient(#FAFAFA,#EAEAEA);
+  border-bottom: 1px solid #CACACA;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+  height: 40px;
+}
+
+div.centerbox {
+  width: 842px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body {
+  margin: 0px;
+  background-color: #FFFFFF;
+  color: #333333;
+}
+
