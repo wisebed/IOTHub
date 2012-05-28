@@ -3,8 +3,11 @@ IOTHub::Application.routes.draw do
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   get "signup" => "users#new", :as => "signup"
-  resources :users
+  resources :users do
+    resources :experiments
+  end
   resources :sessions
+  resources :experiments
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -55,7 +58,7 @@ IOTHub::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'users#index'
+  root :to => 'overview#index'
 
   # See how all your routes lay out with "rake routes"
 

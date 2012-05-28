@@ -1,0 +1,14 @@
+<div class="experimentslist">
+
+  <% if @experiments.empty? %>
+    Sorry, no public experiments so far!
+
+  <% else @experiments.each do |exp| %>
+    <%= link_to(exp.name, experiment_path(exp)) %> | <%= link_to(exp.user.name, user_path(exp.user)) %> <br />
+  
+    <% end %> 
+  
+  
+  <% end %>
+  
+</div>  

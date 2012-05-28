@@ -27,6 +27,28 @@ div.centerbox {
   margin-right: auto;
 }
 
+#logo {
+  width: 75px;
+  margin-right: auto;
+  margin-left: 5px;
+  float: left;
+  
+  border-style:dotted;
+  border-color:red;
+  
+}
+
+#login_or_user {
+  width: 300px;
+  margin-left: auto;
+  margin-right: 5px;
+  float: right;
+  
+  border-style:dotted;
+  border-color:#ccc;
+  
+}
+
 body {
   margin: 0px;
   background-color: #FFFFFF;

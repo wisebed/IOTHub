@@ -11,22 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120525131456) do
+ActiveRecord::Schema.define(:version => 20120528111332) do
 
-  create_table "experiment_runs", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+# Could not dump table "experiment_runs" because of following StandardError
+#   Unknown type 'id' for column 'experiment_id'
 
   create_table "experiment_users", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "experiments", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+# Could not dump table "experiments" because of following StandardError
+#   Unknown type 'id' for column 'user_id'
 
 # Could not dump table "users" because of following StandardError
 #   Unknown type '' for column 'crypted_password'
