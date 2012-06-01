@@ -17,3 +17,14 @@ daniel = User.create({name: 'Daniel Überprüfer', email: 'bimschas@itm.uni-lueb
 Experiment.delete_all
 Experiment.create({name: 'Martens erstes Experiment', user_id: marten.id})
 Experiment.create({name: 'Martens öffentliches Experiment', user_id: marten.id, :visibility => 'public'})
+
+# Testbeds
+Testbed.delete_all
+tb_uzl =Testbed.create({wiseml_url: 'http://wisebed.itm.uni-luebeck.de/rest/2.3/uzl/experiments/network'})
+Testbed.create({wiseml_url: 'http://wisebed.itm.uni-luebeck.de/rest/2.3/tubs/experiments/network'})
+Testbed.create({wiseml_url: 'http://wisebed.itm.uni-luebeck.de/rest/2.3/cti/experiments/network'})
+Testbed.create({wiseml_url: 'http://wisebed.itm.uni-luebeck.de/rest/2.3/upc/experiments/network'})
+Testbed.create({wiseml_url: 'http://wisebed.itm.uni-luebeck.de/rest/2.3/fhl/experiments/network'})
+Testbed.create({wiseml_url: 'http://wisebed.itm.uni-luebeck.de/rest/2.3/sms/experiments/network'})
+
+# ExperimentRuns
