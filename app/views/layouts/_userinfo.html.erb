@@ -1,2 +1,5 @@
+
+<%=image_tag(gravatar_url(current_user.email,{:size=>20}))%>
+
 Logged in as <%= current_user.email %>.
 <%= link_to "Log out", logout_path %>
