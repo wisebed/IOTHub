@@ -6,7 +6,7 @@ class OverviewController < ApplicationController
     # we need: Experiments, Users, Testbeds and more...
     ec = ExperimentsController.new
     uc = UsersController.new
-    @experiments = ec.list_public(10)
+    @experiments = ec.list_public[0..9]
   end
   
 end
