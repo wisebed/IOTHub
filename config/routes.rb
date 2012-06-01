@@ -7,7 +7,9 @@ IOTHub::Application.routes.draw do
     resources :experiments
   end
   resources :sessions
-  resources :experiments
+  resources :experiments do
+    resources :experiment_runs, :as => "runs"
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
