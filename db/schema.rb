@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120528111332) do
+ActiveRecord::Schema.define(:version => 20120601123340) do
 
 # Could not dump table "experiment_runs" because of following StandardError
 #   Unknown type 'id' for column 'experiment_id'
@@ -23,6 +23,12 @@ ActiveRecord::Schema.define(:version => 20120528111332) do
 
 # Could not dump table "experiments" because of following StandardError
 #   Unknown type 'id' for column 'user_id'
+
+  create_table "testbeds", :force => true do |t|
+    t.string   "wiseml_url"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 # Could not dump table "users" because of following StandardError
 #   Unknown type '' for column 'crypted_password'
