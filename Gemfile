@@ -39,3 +39,7 @@ gem 'jquery-rails'
 
 gem 'sorcery'
 gem 'wiseml-ruby'
+
+# gems needed for activeAdmin
+gem 'activeadmin'
+gem "meta_search",    '>= 1.1.0.pre'
