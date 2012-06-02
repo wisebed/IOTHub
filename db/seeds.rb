@@ -10,13 +10,13 @@
 # Users
 User.delete_all
 marv_password = 'foobarfoobar123'
-marv = User.create({name: 'Marvin Administratore', email: 'frick@informatik.uni-luebeck.de', password: marv_password})
+marv = AdminUser.create({name: 'Marvin Administratore', email: 'frick@informatik.uni-luebeck.de', password: marv_password})
 marten = User.create({name: 'Marten Experimenteur', email: 'biomarten@forschungseinrichtung.edu', password: 'foobaz'})
 daniel = User.create({name: 'Daniel Überprüfer', email: 'bimschas@itm.uni-luebeck.de', password: 'bazbar'})
 
 # AdminUser
-AdminUser.delete_all
-admin_marv = AdminUser.create!(:email => marv.email, :password => marv_password, :password_confirmation => marv_password)
+#AdminUser.delete_all
+#admin_marv = AdminUser.create!(:email => marv.email, :password => marv_password, :password_confirmation => marv_password)
 
 # Experiments
 Experiment.delete_all
