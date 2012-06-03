@@ -14,14 +14,11 @@ marv = AdminUser.create({name: 'Marvin Administratore', email: 'frick@informatik
 marten = User.create({name: 'Marten Experimenteur', email: 'biomarten@forschungseinrichtung.edu', password: 'foobaz'})
 daniel = User.create({name: 'Daniel Überprüfer', email: 'bimschas@itm.uni-luebeck.de', password: 'bazbar'})
 
-# AdminUser
-#AdminUser.delete_all
-#admin_marv = AdminUser.create!(:email => marv.email, :password => marv_password, :password_confirmation => marv_password)
-
 # Experiments
 Experiment.delete_all
-Experiment.create({name: 'Martens erstes Experiment', user_id: marten.id})
-Experiment.create({name: 'Martens öffentliches Experiment', user_id: marten.id, :visibility => 'public'})
+Experiment.create([
+    {name: 'Martens erstes Experiment', user_id: marten.id},
+    {name: 'Martens öffentliches Experiment', user_id: marten.id, :visibility => 'public'}])
 
 # Testbeds
 Testbed.delete_all
@@ -31,6 +28,7 @@ tb_uzl =Testbed.create({shortname: "uzl",
                         sessionManagementEndpointUrl: "http://wisebed.itm.uni-luebeck.de:8888/sessions",
                         wiseml_url: 'http://wisebed.itm.uni-luebeck.de/rest/2.3/uzl/experiments/network'},
                        :without_protection => true)
+
 Testbed.create([{shortname: "tubs",
                 name: "University of Braunschweig, Germany (TUBS)",
                 urn_prefix_list: "urn:wisebed:tubs:",
@@ -62,5 +60,3 @@ Testbed.create([{shortname: "tubs",
                 wiseml_url: 'http://wisebed.itm.uni-luebeck.de/rest/2.3/uzl/experiments/network'}],
 
                :without_protection => true)
-
-# ExperimentRuns
