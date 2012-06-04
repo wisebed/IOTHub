@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120603152443) do
+ActiveRecord::Schema.define(:version => 20120604090641) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -48,6 +48,20 @@ ActiveRecord::Schema.define(:version => 20120603152443) do
     t.string   "urn_prefix_list"
     t.string   "sessionManagementEndpointUrl"
   end
+
+  add_index "testbeds", ["shortname"], :name => "index_testbeds_on_shortname"
+
+  create_table "user_testbed_credentials", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "testbed_id"
+    t.string   "username"
+    t.string   "password"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "user_testbed_credentials", ["testbed_id"], :name => "index_user_testbed_credentials_on_testbed_id"
+  add_index "user_testbed_credentials", ["user_id"], :name => "index_user_testbed_credentials_on_user_id"
 
 # Could not dump table "users" because of following StandardError
 #   Unknown type '' for column 'crypted_password'

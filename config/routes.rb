@@ -10,9 +10,15 @@ IOTHub::Application.routes.draw do
   resources :users do
     resources :experiments
   end
+
   resources :sessions
+
   resources :experiments do
     resources :experiment_runs, :as => "runs"
+  end
+
+  resource :testbed do
+    get ":shortname/authenticate" => "testbed#authenticate"
   end
 
   # The priority is based upon order of creation:

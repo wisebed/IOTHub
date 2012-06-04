@@ -60,3 +60,7 @@ Testbed.create([{shortname: "tubs",
                 wiseml_url: 'http://wisebed.itm.uni-luebeck.de/rest/2.3/uzl/experiments/network'}],
 
                :without_protection => true)
+
+# UserTestbedCredentials
+UserTestbedCredential.delete_all
+marv.user_testbed_credentials.create({testbed_id: tb_uzl.id, username: "marv@wisebed1.itm.uni-luebeck.de", password: "DUMMY_CHANGE_ME"}, :without_protection => true)

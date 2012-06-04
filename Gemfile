@@ -46,3 +46,6 @@ gem "meta_search",    '>= 1.1.0.pre'
 
 # for LocalGit ExperimentData Objects
 gem 'grit'
+
+# SOAP client library
+gem 'savon'

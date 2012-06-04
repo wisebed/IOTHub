@@ -2,6 +2,7 @@ class Testbed < ActiveRecord::Base
   attr_accessible :wiseml_url
   require 'WiseML'
   has_many :experiment_runs
+  has_many :user_testbed_credentials
 
   def setup
     if @setup.nil?
