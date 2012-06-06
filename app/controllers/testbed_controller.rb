@@ -7,7 +7,12 @@ class TestbedController < ApplicationController
     secret_auth_keys = current_user.authenticate_with_testbed(Testbed.find_by_shortname(params[:shortname]))
     respond_to do |format|
       if secret_auth_keys
-        format.json { render json: secret_auth_keys, :status => :ok }
+        format.json {
+          cookies["wisebed-secret-authentication-key-"+params[:shortname]] = {
+              :value => Base64.encode64(secret_auth_keys.to_json),
+              :domain => "http://wisebed.itm.uni-luebeck.de"
+          }
+          render json: secret_auth_keys, :status => :ok }
       else
         format.json { render json: "no", :status => :forbidden }
       end
