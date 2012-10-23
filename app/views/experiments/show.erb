@@ -1,1 +1,25 @@
-dies ist ein Experiment
+<p id="notice"><%= notice %></p>
+
+<h1><%= @experiment.name %></h1>
+
+<p>
+  <b>created by:</b>
+  <%= @experiment.user.email %>
+</p>
+
+<p>
+  <b>completed runs:</b>
+  <% @experiment.experiment_runs.each do |testrun|%>
+    <%= link_to "Testrun on "+testrun.experiment_version, testrun_path(testrun)%>
+  <% end %>
+</p>
+
+<% if (session["user_id"] == @experiment.user.id) %>
+  <%= link_to 'Edit', edit_experiment_path(@experiment)%> |
+<% end %>
+
+<% if (session["user_id"]) %>
+  <%= button_to "Run this experiment", { :action => "experiment/"+@experiment.id.to_s+"/experiment_runs" }, :confirm => "Are you sure?", :method => :get %>
+<% end %>
+
+<%= link_to 'Back', users_path %>
