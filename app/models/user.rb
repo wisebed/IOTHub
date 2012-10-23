@@ -10,7 +10,10 @@ class User < ActiveRecord::Base
 
   has_many :experiments
   has_many :user_testbed_credentials
-
+  
+  def isAdmin?
+    return false
+  end
 
   # Authenticated the user with the the given testbed
   #

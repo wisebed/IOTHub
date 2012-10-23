@@ -1,4 +1,4 @@
-module ExperimentData
+module DataBackends
   class LocalGit
 
     require 'grit'
@@ -23,10 +23,12 @@ module ExperimentData
     end
     # end ActiveModel compat methods
 
+    attr_accessor :repo
+
     # Initializes this ExperimentData object with a local git repository.
     #
     # @param [String] the name of this experiment repo (will be made filesystem friendly!)
-    # @return [ExperimentData::LocalGit] the new object
+    # @return [DataBackends::LocalGit] the new object
     def initialize(name)
 
       # gsub null byte, prevent directory traversal by taking only the file basename and
@@ -65,8 +67,12 @@ module ExperimentData
     # in the future. Think of XML or whatever.
     #
     # @return [String] the config file content
-    def config_json
-      (current.tree / "config.json").data
+    def config_json(from = nil)
+      if from
+        (@repo.tree(from) / "config.json").data
+      else
+        (current.tree / "config.json").data
+      end
     end
 
     # Lists the names of all binaries in this experiment that are specified in config.json

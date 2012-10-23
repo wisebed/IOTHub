@@ -21,6 +21,11 @@ IOTHub::Application.routes.draw do
     get ":shortname/authenticate" => "testbed#authenticate"
   end
 
+  resource :experimentrun do
+    get ":hash" => "experimentrun#show"
+    get ":hash/config" => "experimentrun#config"
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

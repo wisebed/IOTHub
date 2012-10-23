@@ -9,12 +9,15 @@
   <b>Email:</b>
   <%= @user.email %>
 </p>
-
 <p>
-  <b>Pw:</b>
-  <%= @user.password %>
+  <b>Experiments:</b></br>
+  <% @user.experiments.each do |exp| %>
+    <%= link_to(exp.name, experiment_path(exp)) %> <br />                                  
+  <% end %>
 </p>
 
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<% if (session["user_id"] == @user.id) %>
+  <%= link_to 'Edit', edit_user_path(@user) %> |
+<% end %>
+<%= link_to 'Back', users_path %> 
+                                
