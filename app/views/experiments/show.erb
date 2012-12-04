@@ -10,7 +10,7 @@
 <p>
   <b>completed runs:</b>
   <% @experiment.experiment_runs.each do |testrun|%>
-    <%= link_to "Testrun on "+testrun.experiment_version, testrun_path(testrun)%>
+    <div>run #<%= testrun.id %> | <%= testrun.start_time.nil? ? "sheduled - not yet running" : testrun.end_time.nil? ? "running..." : "finished @ #{testrun.end_time}" %></div>
   <% end %>
 </p>
 
@@ -19,7 +19,11 @@
 <% end %>
 
 <% if (session["user_id"]) %>
-  <%= button_to "Run this experiment", { :action => "experiment/"+@experiment.id.to_s+"/experiment_runs" }, :confirm => "Are you sure?", :method => :get %>
+  <%= form_tag(experiment_runs_path(@experiment.id), :method => :post) do -%>
+    <%= hidden_field_tag 'experiment_id', @experiment.id %>
+    <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :confirm => "Are you sure?" %>
+  <% end -%>
+
 <% end %>
 
 <%= link_to 'Back', users_path %>

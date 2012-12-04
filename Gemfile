@@ -5,7 +5,16 @@ gem 'rails', '3.2.3'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+if defined?(JRUBY_VERSION)
+  gem 'jdbc-sqlite3'
+  gem 'activerecord-jdbc-adapter'
+  gem 'activerecord-jdbcsqlite3-adapter'
+  gem 'jruby-openssl'
+  gem 'jruby-rack'
+  gem 'warbler'
+else
+  gem 'sqlite3'
+end
 
 
 # Gems used only for assets and not required
@@ -44,8 +53,16 @@ gem 'wiseml-ruby'
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
 
-# for LocalGit ExperimentData Objects
-gem 'grit'
+
 
 # SOAP client library
-gem 'savon'
+#gem 'savon'
+
+platforms :ruby do
+    # for LocalGit ExperimentData Objects
+    gem 'grit'
+end
+
+platforms :jruby do
+    #gem 'spoon'
+end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120604090641) do
+ActiveRecord::Schema.define(:version => 20120607071453) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -38,6 +38,9 @@ ActiveRecord::Schema.define(:version => 20120604090641) do
 
 # Could not dump table "experiments" because of following StandardError
 #   Unknown type 'id' for column 'user_id'
+
+# Could not dump table "sqlite_stat1" because of following StandardError
+#   Unknown type '' for column 'tbl'
 
   create_table "testbeds", :force => true do |t|
     t.string   "wiseml_url"

@@ -7,6 +7,7 @@ IOTHub::Application.routes.draw do
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   get "signup" => "users#new", :as => "signup"
+  
   resources :users do
     resources :experiments
   end
@@ -14,16 +15,11 @@ IOTHub::Application.routes.draw do
   resources :sessions
 
   resources :experiments do
-    resources :experiment_runs, :as => "runs"
+    resources :experimentruns, :as => "runs", :path => "runs"
   end
 
   resource :testbed do
     get ":shortname/authenticate" => "testbed#authenticate"
-  end
-
-  resource :experimentrun do
-    get ":hash" => "experimentrun#show"
-    get ":hash/config" => "experimentrun#config"
   end
 
   # The priority is based upon order of creation:
