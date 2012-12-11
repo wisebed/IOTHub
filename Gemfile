@@ -61,8 +61,11 @@ gem "meta_search",    '>= 1.1.0.pre'
 platforms :ruby do
     # for LocalGit ExperimentData Objects
     gem 'grit'
+    gem 'eventmachine'
+    gem 'em-http-request'
+    gem "wisebedclientruby", :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
 end
 
 platforms :jruby do
-    #gem 'spoon'
+    gem 'spoon'
 end
