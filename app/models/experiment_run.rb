@@ -100,6 +100,11 @@ class ExperimentRun < ActiveRecord::Base
     update_attribute(:state, :scheduled) unless self.state
   end
 
+  def backend
+    init_backend! unless @backend
+    @backend
+  end
+
   def init_backend!
     @backend = DataBackends::LocalFlatFile.new(self) unless @backend
   end

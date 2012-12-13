@@ -41,6 +41,11 @@ module DataBackends
       init_config
     end
 
+    # @return [String] the absolut path to given file
+    def get_static_path(filename)
+      File.join(@path,sanitize(filename))
+    end
+
     # Generates a config object with links to config and bins and list of nodes
     #
     # @return [Hash] the configuration hash + a method to get all nodes

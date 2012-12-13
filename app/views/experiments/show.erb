@@ -12,7 +12,7 @@
   <% @experiment.experiment_runs.each do |testrun|%>
     <div>run #<%= testrun.id %>
       | <%= testrun.state.nil?  ? "just created" : testrun.state.to_s %>
-      |  <%= testrun.start_time.nil?  ? "in the future" : testrun.start_time.in_time_zone %>
+      |  <%= testrun.finish_time || testrun.start_time || "in the future..."%>
     </div>
   <% end %>
 </p>

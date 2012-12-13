@@ -15,7 +15,9 @@ IOTHub::Application.routes.draw do
   resources :sessions
 
   resources :experiments do
-    resources :experimentruns, :as => "runs", :path => "runs"
+    resources :experimentruns, :as => "runs", :path => "runs" do
+      get "static/:filename.:extension" => 'experimentruns#get_static', :format => false
+    end
   end
 
   resource :testbed do
