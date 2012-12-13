@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 
   has_many :experiments
   has_many :user_testbed_credentials
+  has_many :experiment_runs
   
   def isAdmin?
     return false

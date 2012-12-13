@@ -10,7 +10,7 @@
 <p>
   <b>completed runs:</b>
   <% @experiment.experiment_runs.each do |testrun|%>
-    <div>run #<%= testrun.id %> | <%= testrun.start_time.nil? ? "sheduled - not yet running" : testrun.end_time.nil? ? "running..." : "finished @ #{testrun.end_time}" %></div>
+    <div>run #<%= testrun.id %> | <%= testrun.state.nil?  ? "just created" : testrun.state.to_s %></div>
   <% end %>
 </p>
 
