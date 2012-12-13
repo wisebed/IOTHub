@@ -25,64 +25,79 @@ class ExperimentRun < ActiveRecord::Base
     logindata
   end
 
+  def tb
+    @tb || connected_and_logged_in_tb
+  end
+
   def connected_and_logged_in_tb
-    tb = Wisebed::Testbed.new(testbed.shortname)
-    tb.login!(login_data)
-    tb
+    @tb = Wisebed::Testbed.new(testbed.shortname)
+    @tb.login!(login_data)
+    @tb
   end
 
   # Executes this testrun on the testbed.
   # Only executeable when this model is valid?
   def run!
-    make_reservation unless state
     init_backend! unless @backend
+    make_reservation unless state == :canrun or state == :finished
 
     puts "running exp-run: state is: #{state}"
 
-    if self.state == :sheduled
-      # sleep oder so
-    elsif self.state == :finished
-      # do nothing, should not happen
-    elsif self.state == :canrun
-      tb = connected_and_logged_in_tb
+    if self.state == :canrun and self.start_time < Time.now
+      Thread.new do
+        puts "now running experimentRun #{self.id} on #{self.testbed.id}"
+        experiment_id = tb.experiments(JSON.parse(self.reservation))
+        tb.flash(experiment_id, self.download_config_url)
+        # TODO: wait for flashing to finish
 
-      exp_id = tb.experiments
-      Wisebed::Client.new.experimentconfiguration=self.download_config_url
-
-      wsc = Wisebed::WebsocketClient.new(exp_id,tb.cookie)
-      Timeout::timeout((runtime+1)*60) do
-        # TODO: use @backend here
-        f = @backend.log
-        wsc.attach {|msg| print "."; f.write msg}
-        while true do sleep 1 end
+        wsc = Wisebed::WebsocketClient.new(testbed.shortname, tb.cookie)
+        Timeout::timeout((runtime+1)*60) do
+          f = @backend.log
+          wsc.attach {|msg| print "."; f.write msg}
+          while true do sleep 1 end
+        end
+        wsc.detach
+        f.close
+        update_attribute(:state, :finished)
       end
-      wsc.detach
-      f.close
-      update_attribute(:state, :finished)
+    else
+      if self.reservation and self.start_time
+        # if we have a reservation, run this again at the starting time
+        self.delay(:run_at => self.start_time.in_time_zone).run!
+      else
+        # however if not reserved yet, just try again in a minute
+        self.delay(:run_at => 1.minutes.from_now).run!
+      end
     end
   end
 
 
-  def make_reservation(tb=nil)
 
-    tb = connected_and_logged_in_tb unless tb
+  def make_reservation()
     begin
-      # TODO: user config.nodes instead of harcoded nodes here!
-      reservation = tb.make_reservation(Time.now, Time.now+(60*runtime), "Reservation via IoTHub for #{user.name}", @backend.config.nodes)
+      reservation = tb.make_reservation(Time.now, Time.now+(runtime.minutes), "Reservation via IoTHub for #{user.name}", @backend.config.nodes)
       update_attribute(:state, :canrun)
       update_attribute(:reservation, reservation.to_json)
+      update_attribute(:start_time, Time.now)
     rescue RuntimeError => e
-      # WTF?! not sure why make_reservation does not pass the exception up to here...
-      # e.message is an empty string, why?!?
-      #if e.message.include? "Another reservation is in conflict with yours"
-        # shedule this for later
-        puts "rescued exception for reservation conflict, sheduling this run for later"
-        update_attribute(:state, :sheduled)
-        # do not set start_time, do not set end_time
-      #else
-        # failreason = "Could not make reservation. API-Response: #{e.message}"
-      #end
+      # could not make reservation right now, trying to schedule it
+      reservations = tb.public_reservations(Time.now, Time.now+1.day)
+      reservations.each do |r|
+        begin
+          try_to_start_at = Time.at(r["to"]/1000+1.minute)
+          puts "Trying to reservate at: #{try_to_start_at}"
+          reservation = tb.make_reservation(try_to_start_at, try_to_start_at+(runtime.minutes), "Reservation via IoTHub for #{user.name}", @backend.config.nodes)
+          update_attribute(:state, :canrun)
+          update_attribute(:reservation, reservation.to_json)
+          update_attribute(:start_time, try_to_start_at)
+          break
+        rescue RuntimeError => e
+          # do nothing, try next
+        end
+      end
     end
+    # if still not in :canrun state, set it to :scheduled to try later
+    update_attribute(:state, :scheduled) unless self.state
   end
 
   def init_backend!

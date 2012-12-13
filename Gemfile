@@ -54,6 +54,9 @@ gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
 
 
+# for background tasks
+gem 'delayed_job_active_record'
+gem "daemons"
 
 # SOAP client library
 #gem 'savon'
@@ -63,7 +66,7 @@ platforms :ruby do
     gem 'grit'
     gem 'eventmachine'
     gem 'em-http-request'
-    gem "wisebedclientruby", :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
+    gem "wisebedclientruby"#, :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
 end
 
 platforms :jruby do
