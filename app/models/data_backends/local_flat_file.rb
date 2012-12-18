@@ -31,10 +31,10 @@ module DataBackends
     # @return [DataBackends::LocalFlatFile] the new object
     def initialize(exp_run_obj)
       @exp_run_obj = exp_run_obj
-
-      @path = FILE_BASE_PATH+"/"+@exp_run_obj.user_id.to_s+"_"+@exp_run_obj.testbed_id.to_s+"_"+@exp_run_obj.created_at.to_i.to_s
+      puts "[#{Time.now} | #{@exp_run_obj.id.to_s}] init backend (#{self.object_id.to_s})"
+      @path = FILE_BASE_PATH+"/"+@exp_run_obj.id.to_s+"_"+@exp_run_obj.testbed_id.to_s+"_"+@exp_run_obj.created_at.to_i.to_s
       unless File.directory?(@path)
-        puts "no such directory: #{@path} Creating it."
+        puts "[#{Time.now}] no such directory: #{@path} Creating it."
         system("mkdir -p #{@path}") # TODO: think about security!
       end
 
@@ -76,6 +76,8 @@ module DataBackends
         @parsed_config = JSON.parse(File.open(File.join(@path,"config.json"),"r").read)
         return
       end
+
+      puts "[#{Time.now}] backend: no local files found, downloading..."
 
       # otherwise: download the config and all referred binaries
       require 'open-uri'

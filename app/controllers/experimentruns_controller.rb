@@ -25,7 +25,7 @@ class ExperimentrunsController < ApplicationController
 
     respond_to do |format|
       if @run.save
-        @run.run!
+        @run.delay.run!
         format.html { redirect_to experiment_path(params[:experiment_id]), notice: 'Run was successfully created.' }
         format.json { render json: @run, status: :created, location: experiment_path(params[:experiment_id]) }
       else

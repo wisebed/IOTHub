@@ -64,8 +64,6 @@ gem "daemons"
 platforms :ruby do
     # for LocalGit ExperimentData Objects
     gem 'grit'
-    gem 'eventmachine'
-    gem 'em-http-request'
     gem "wisebedclientruby"#, :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
 end
 
