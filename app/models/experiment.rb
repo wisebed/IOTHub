@@ -3,6 +3,4 @@ class Experiment < ActiveRecord::Base
   has_many :experiment_runs
   belongs_to :user
 
-  
-  
 end

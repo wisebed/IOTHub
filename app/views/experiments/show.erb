@@ -8,25 +8,21 @@
 </p>
 
 <p>
-  <b>completed runs:</b>
+  <b> runs:</b>
   <% @experiment.experiment_runs.each do |testrun|%>
-    <div>run #<%= testrun.id %>
-      | <%= testrun.state.nil?  ? "just created" : testrun.state.to_s %>
-      |  <%= testrun.finish_time || testrun.start_time || "in the future..."%>
-    </div>
+    <div><%= link_to("run # #{testrun.id}
+      | #{testrun.state.nil?  ? 'just created' : testrun.state.to_s}
+      | #{testrun.finish_time || testrun.start_time || 'in the future...' }
+      ", experiment_run_path(@experiment,testrun)) %></div>
   <% end %>
 </p>
 
-<% if (session["user_id"] == @experiment.user.id) %>
-  <%= link_to 'Edit', edit_experiment_path(@experiment)%> |
+<% if current_user == @experiment.user or current_user.isAdmin %>
+    <%= link_to 'Edit', edit_experiment_path(@experiment)%> |
 <% end %>
 
-<% if (session["user_id"]) %>
-  <%= form_tag(experiment_runs_path(@experiment.id), :method => :post) do -%>
-    <%= hidden_field_tag 'experiment_id', @experiment.id %>
-    <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :confirm => "Are you sure?" %>
-  <% end -%>
-
+<% if current_user %>
+    <div id="experiment_run">
+        <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :id => :experiment_run_button %>
+    </div>
 <% end %>
-
-<%= link_to 'Back', users_path %>

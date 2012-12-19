@@ -11,25 +11,34 @@ class ExperimentrunsController < ApplicationController
   def show
     @run = ExperimentRun.find(params[:id])
   end
-  
+
+  # GET experiments/:experiment_id/runs/new
+  def new
+    @run = ExperimentRun.new
+    @exp = Experiment.find(params[:experiment_id])
+    respond_to do |format|
+      format.html {  render :partial => "experimentruns/new", :layout => nil }
+    end
+  end
+
   # POST experiments/:experiment_id/runs
   # POST experiments/:experiment_id/runs.json
   def create
     @run = ExperimentRun.new()
-    @run.experiment_id = params[:experiment_id]
-    # TODO: ask user for testbed
-    @run.testbed_id = Testbed.find_by_shortname("uzl").id
+    @run.experiment = Experiment.find(params[:experiment_run][:experiment_id])
+    @run.testbed = Testbed.find_by_shortname(params[:experiment_run][:testbed])
     @run.user_id = current_user.id
-    @run.runtime = 2 # two minutes
-    @run.download_config_url="https://raw.github.com/itm/wisebed-experiments/master/packet-tracking/config.json"
+    @run.runtime = params[:experiment_run][:runtime]
+    @run.download_config_url = params[:experiment_run][:download_config_url]
+        #"https://raw.github.com/itm/wisebed-experiments/master/packet-tracking/config.json"
 
     respond_to do |format|
       if @run.save
         @run.delay.run!
-        format.html { redirect_to experiment_path(params[:experiment_id]), notice: 'Run was successfully created.' }
-        format.json { render json: @run, status: :created, location: experiment_path(params[:experiment_id]) }
+        format.html { redirect_to experiment_path(params[:experiment_run][:experiment_id]), notice: 'Run was successfully created.' }
+        format.json { render json: @run, status: :created, location: experiment_path(params[:experiment_run][:experiment_id]) }
       else
-        format.html { redirect_to experiment_path(params[:experiment_id]), notice: 'Error while creating Run: ' + @run.errors }
+        format.html { redirect_to experiment_path(params[:experiment_run][:experiment_id]), notice: 'Error while creating Run: ' + @run.errors }
         format.json { render json: @run.errors, status: :unprocessable_entity }
       end
     end

@@ -1,0 +1,29 @@
+<%= form_for(@run) do |f| %>
+  <% if @run.errors.any? %>
+    <div id="error_explanation">
+<h2><%= pluralize(@run.errors.count, "error") %> prohibited this run from being saved:</h2>
+
+      <ul>
+      <% @run.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+</div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :download_config_url %>
+    <%= f.text_field :download_config_url %>
+  </div>
+  <div class="field">
+    <%= f.label :runtime %>
+    <%= f.text_field :runtime %>
+  </div>
+  <div class="field">
+    <%= f.label :testbed, "Shortname of testbed (uzl, ...)" %>
+    <%= f.text_field :testbed %>
+  </div>
+    <%= f.hidden_field :experiment_id, { :value => @exp.id } %>
+    <%= f.submit %>
+  </div>
+<% end %>

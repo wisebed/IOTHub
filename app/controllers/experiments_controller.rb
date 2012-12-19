@@ -10,7 +10,7 @@ class ExperimentsController < ApplicationController
   def show
     @experiment = Experiment.find(params[:id])
                                                                                       
-    unless User.find(session["user_id"]).isAdmin? or @experiment.visibility == "public" or session["user_id"] == @experiment.user_id
+    unless !current_user or current_user.isAdmin? or @experiment.visibility == "public" or current_user.id == @experiment.user_id
       #@experiemnt_alternatives = find_alternatives_for(@experiment)
       render '_notpublic'
       return

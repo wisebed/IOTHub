@@ -1,0 +1,14 @@
+<h1><%= @run.experiment.name %> | <%= @run.id %> on <%= @run.testbed.shortname %></h1>
+
+<p>
+  <b>created by:</b>
+  <%= @run.user.email %>
+</p>
+
+<% if current_user %>
+    <div id="experiment_run">
+      <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :id => :experiment_run_button %>
+    </div>
+<% end %>
+
+<%= link_to ' << Back', experiment_path(@run.experiment) %>
