@@ -40,11 +40,11 @@ class ExperimentsController < ApplicationController
   # GET /experiements/new
   # GET /experiements/new.json
   def new
-    @experiment = Experiment.new
+    @exp = Experiment.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @experiement }
+      format.json { render json: @experiment }
     end
   end
 
@@ -56,15 +56,16 @@ class ExperimentsController < ApplicationController
   # POST /experiements
   # POST /experiements.json
   def create
-    @experiment = Experiment.new(params[:experiement])
+    @experiment = Experiment.new(params[:experiment])
+    @experiment.user = current_user
 
     respond_to do |format|
-      if @experiement.save
-        format.html { redirect_to @experiement, notice: 'Experiments was successfully created.' }
-        format.json { render json: @experiement, status: :created, location: @user }
+      if @experiment.save
+        format.html { redirect_to @experiment, notice: 'Experiments was successfully created.' }
+        format.json { render json: @experiment, status: :created, location: @user }
       else
         format.html { render action: "new" }
-        format.json { render json: @experiement.errors, status: :unprocessable_entity }
+        format.json { render json: @experiment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -72,15 +73,15 @@ class ExperimentsController < ApplicationController
   # PUT /experiements/1
   # PUT /experiements/1.json
   def update
-    @experiement = Experiment.find(params[:id])
+    @experiment = Experiment.find(params[:id])
 
     respond_to do |format|
-      if @experiement.update_attributes(params[:experiement])
-        format.html { redirect_to @experiement, notice: 'Experiment was successfully updated.' }
+      if @experiment.update_attributes(params[:experiment])
+        format.html { redirect_to @experiment, notice: 'Experiment was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @experiement.errors, status: :unprocessable_entity }
+        format.json { render json: @experiment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -88,8 +89,8 @@ class ExperimentsController < ApplicationController
   # DELETE /experiements/1
   # DELETE /experiements/1.json
   def destroy
-    @experiement = Experiment.find(params[:id])
-    @experiement.destroy
+    @experiment = Experiment.find(params[:id])
+    @experiment.destroy
 
     respond_to do |format|
       format.html { redirect_to experiments_url }

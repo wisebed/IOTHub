@@ -1,0 +1,29 @@
+<%= form_for(@exp) do |f| %>
+  <% if @exp.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exp.errors.count, "error") %> prohibited this exp from being saved:</h2>
+
+      <ul>
+      <% @exp.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :default_download_config_url, "URL of the configuration file to use for future runs" %><br />
+    <%= f.text_field :default_download_config_url %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -13,11 +13,11 @@
 
   <div class="field">
     <%= f.label :download_config_url %>
-    <%= f.text_field :download_config_url %>
+    <%= f.text_field :download_config_url, { :value => @exp.default_download_config_url } %>
   </div>
   <div class="field">
-    <%= f.label :runtime %>
-    <%= f.text_field :runtime %>
+    <%= f.label :runtime, "Runtime in minutes" %>
+    <%= f.text_field :runtime, { :value => 2 } %>
   </div>
   <div class="field">
     <%= f.label :testbed, "Shortname of testbed (uzl, ...)" %>
