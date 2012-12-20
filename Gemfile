@@ -61,12 +61,13 @@ gem "daemons"
 # SOAP client library
 #gem 'savon'
 
+gem "wisebedclientruby"#, :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
+
 platforms :ruby do
     # for LocalGit ExperimentData Objects
-    gem 'grit'
-    gem "wisebedclientruby"#, :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
+    # gem 'grit'
 end
 
 platforms :jruby do
-    gem 'spoon'
+    #gem 'spoon'
 end
