@@ -51,6 +51,8 @@ class ExperimentrunsController < ApplicationController
     @run = ExperimentRun.find(params[:run_id])
     if params[:extension] == "json"
       render :file => @run.backend.get_static_path(params[:filename]+"."+params[:extension]), :content_type => 'application/json'
+    elsif params[:extension] == "txt"
+      send_file(File.open(@run.backend.get_static_path(params[:filename]+"."+params[:extension])), :content_type => 'text/plain')
     else
       send_file(File.open(@run.backend.get_static_path(params[:filename]+"."+params[:extension])))
     end

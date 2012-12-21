@@ -110,13 +110,14 @@ module DataBackends
         @checksum = @exp_run_obj.config_checksum
       else
         require "digest/sha1"
-        long_checksum_string = Dir.glob("*.{json,txt,bin}").sort.inject("") do |c,f|
+        long_checksum_string = Dir.glob(@path+"/*.{json,txt,bin}").sort.inject("") do |c,f|
           # Calculate checksum for every file and concat them
           c += Digest::SHA1.hexdigest(File.open(f,"r").read)
         end
         # "compress" the concated checksums by checksumming
         @checksum = Digest::SHA1.hexdigest(long_checksum_string)
       end
+      @checksum
     end
 
     # gsub null byte, prevent directory traversal by taking only the file basename and
@@ -141,6 +142,17 @@ module DataBackends
     def open_log
       @log = File.open(@path+"/log.txt","w")
     end
-   
+
+    # A list of files that are saved for this experimentrun.
+    #
+    # @return [Hash] name of file => filesize
+    def files
+      h = Hash.new
+      Dir.glob(@path+"/*.{json,txt,bin}") do |f|
+        h[File.basename(f)] = File.size(f)
+      end
+      h
+    end
+
   end
 end

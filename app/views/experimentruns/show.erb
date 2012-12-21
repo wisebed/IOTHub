@@ -1,9 +1,15 @@
-<h1><%= @run.experiment.name %> | <%= @run.id %> on <%= @run.testbed.shortname %></h1>
+<h1 xmlns="http://www.w3.org/1999/html"><%= @run.experiment.name %> | <%= @run.id %> on <%= @run.testbed.shortname %></h1>
 
 <p>
   <b>created by:</b>
   <%= @run.user.email %>
 </p>
+
+<p>
+  <b>files:</b></br>
+  <%= render :partial => "files" %>
+</p>
+
 
 <% if current_user %>
     <div id="experiment_run">
