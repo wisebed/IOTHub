@@ -1,5 +1,5 @@
 <% @run.backend.files.each do |name, size| %>
     <% link_text = name+" | "+size.to_s+" bytes" %>
-    <%=  link_to(link_text,experiment_run_path(@run.experiment,@run)+"/static/"+name)%>
+    <%=  link_to(link_text,experimentrun_staic_path(@run,name))%>
     </br>
 <% end %>
