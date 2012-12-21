@@ -7,7 +7,11 @@ IOTHub::Application.routes.draw do
   get "logout" => "sessions#destroy", :as => "logout"
   get "login" => "sessions#new", :as => "login"
   get "signup" => "users#new", :as => "signup"
-  
+
+  # routes for omniauth with github
+  match "/auth/:provider/callback" => "sessions#create_from_github"
+  match "/auth/failure" => "sessions#failure_from_github"
+
   resources :users do
     resources :experiments
   end

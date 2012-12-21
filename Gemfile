@@ -47,6 +47,8 @@ gem 'jquery-rails'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 gem 'sorcery'
+gem 'omniauth-github'
+
 gem 'wiseml-ruby'
 
 # gems needed for activeAdmin
