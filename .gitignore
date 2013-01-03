@@ -20,3 +20,6 @@ log/*.log
 .yardoc
 _yardoc
 doc/
+
+# do not include these files in repository for security reasons
+secret_token.yml
