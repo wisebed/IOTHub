@@ -18,7 +18,8 @@ daniel = User.create({name: 'Daniel Überprüfer', email: 'bimschas@itm.uni-lueb
 Experiment.delete_all
 Experiment.create([
     {name: 'Martens erstes Experiment', user_id: marten.id},
-    {name: 'Martens öffentliches Experiment', user_id: marten.id, :visibility => 'public'}])
+    {name: 'Martens öffentliches Experiment', user_id: marten.id, :visibility => 'public'}],
+    :without_protection => true)
 
 # Testbeds
 Testbed.delete_all
