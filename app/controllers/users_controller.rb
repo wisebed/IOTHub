@@ -100,8 +100,16 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    raise SecurityError unless (params[:id].to_i == current_user.id) or current_user.is_admin?
+
     @user = User.find(params[:id])
-    @user.destroy
+    if @user.experiments.empty? and @user.experiment_runs.empty?
+      logout if @user == current_user
+      @user.destroy
+    else
+      raise "Trying to delete user with experiments. This is not yet possible, sorry!"
+    end
+
 
     respond_to do |format|
       format.html { redirect_to users_url }
