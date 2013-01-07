@@ -1,29 +1,36 @@
 <%= form_for(@run) do |f| %>
-  <% if @run.errors.any? %>
-    <div id="error_explanation">
-<h2><%= pluralize(@run.errors.count, "error") %> prohibited this run from being saved:</h2>
+    <% if @run.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@run.errors.count, "error") %> prohibited this run from being saved:</h2>
 
-      <ul>
-      <% @run.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-</div>
-  <% end %>
+          <ul>
+            <% @run.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
 
-  <div class="field">
-    <%= f.label :download_config_url %>
-    <%= f.text_field :download_config_url, { :value => @exp.default_download_config_url } %>
-  </div>
-  <div class="field">
-    <%= f.label :runtime, "Runtime in minutes" %>
-    <%= f.text_field :runtime, { :value => 2 } %>
-  </div>
-  <div class="field">
-    <%= f.label :testbed, "Shortname of testbed (uzl, ...)" %>
-    <%= f.text_field :testbed %>
-  </div>
-    <%= f.hidden_field :experiment_id, { :value => @exp.id } %>
-    <%= f.submit %>
-  </div>
+    <% if current_user.user_testbed_credentials.empty? %>
+        <%= link_to "please add at least one testbed to your account!", edit_user_path(current_user), :style => "color: red;" %>
+    <% else %>
+
+        <div class="field">
+          <%= f.label :download_config_url %>
+          <%= f.text_field :download_config_url, {:value => @exp.default_download_config_url} %>
+        </div>
+        <div class="field">
+          <%= f.label :runtime, "Runtime in minutes" %>
+          <%= f.text_field :runtime, {:value => 2} %>
+        </div>
+        <div class="field">
+          <%= f.label :testbed, "Shortname of testbed (uzl, ...)" %>
+          <%#= f.text_field :testbed %>
+          <%= f.select :testbed, current_user.user_testbed_credentials.collect {|tb| tb.shortname } %>
+          <%#= f.select_field :testbed, options_from_collection_for_select(current_user.user_testbed_credentials, :shortname, :shortname) %>
+        </div>
+        <%= f.hidden_field :experiment_id, {:value => @exp.id} %>
+        <%= f.submit %>
+        </div>
+    <% end %>
 <% end %>
