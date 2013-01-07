@@ -6,14 +6,14 @@ gem 'rails', '3.2.3'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 if defined?(JRUBY_VERSION)
-  gem 'jdbc-sqlite3'
-  gem 'activerecord-jdbc-adapter'
-  gem 'activerecord-jdbcsqlite3-adapter'
+  gem 'jdbc-mysql2'
+  gem 'activerecord-mysql-adapter'
+  gem 'activerecord-jdbcsmysql-adapter'
   gem 'jruby-openssl'
   gem 'jruby-rack'
   gem 'warbler'
 else
-  gem 'sqlite3'
+  gem 'mysql2'
 end
 
 

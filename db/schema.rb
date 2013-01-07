@@ -44,19 +44,43 @@ ActiveRecord::Schema.define(:version => 20121221151352) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
-# Could not dump table "experiment_runs" because of following StandardError
-#   Unknown type 'id' for column 'experiment_id'
+  create_table "experiment_runs", :force => true do |t|
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.integer  "experiment_id",        :default => 0, :null => false
+    t.string   "experiment_version"
+    t.string   "experiment_data_host"
+    t.string   "experiment_data_path"
+    t.integer  "testbed_id"
+    t.datetime "start_time"
+    t.datetime "finish_time"
+    t.string   "commit"
+    t.integer  "user_id"
+    t.integer  "runtime"
+    t.string   "reservation"
+    t.string   "failreason"
+    t.string   "tb_exp_id"
+    t.string   "state"
+    t.string   "config_checksum"
+    t.string   "download_config_url"
+  end
+
+  add_index "experiment_runs", ["commit"], :name => "index_experiment_runs_on_commit"
 
   create_table "experiment_users", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-# Could not dump table "experiments" because of following StandardError
-#   Unknown type 'id' for column 'user_id'
-
-# Could not dump table "sqlite_stat1" because of following StandardError
-#   Unknown type '' for column 'tbl'
+  create_table "experiments", :force => true do |t|
+    t.datetime "created_at",                                                                :null => false
+    t.datetime "updated_at",                                                                :null => false
+    t.string   "name",                        :default => "awesome but unnamed experiment", :null => false
+    t.integer  "user_id",                     :default => 0,                                :null => false
+    t.string   "visibility",                  :default => "private",                        :null => false
+    t.string   "default_download_config_url"
+    t.string   "description"
+  end
 
   create_table "testbeds", :force => true do |t|
     t.string   "wiseml_url"
@@ -82,7 +106,21 @@ ActiveRecord::Schema.define(:version => 20121221151352) do
   add_index "user_testbed_credentials", ["testbed_id"], :name => "index_user_testbed_credentials_on_testbed_id"
   add_index "user_testbed_credentials", ["user_id"], :name => "index_user_testbed_credentials_on_user_id"
 
-# Could not dump table "users" because of following StandardError
-#   Unknown type '' for column 'crypted_password'
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "email",                                        :null => false
+    t.string   "password"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+    t.string   "crypted_password"
+    t.string   "salt"
+    t.string   "remember_me_token"
+    t.datetime "remember_me_token_expires_at"
+    t.string   "type",                         :default => "", :null => false
+    t.string   "github_uid"
+    t.string   "avatar_url"
+  end
+
+  add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"
 
 end
