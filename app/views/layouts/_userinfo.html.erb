@@ -1,6 +1,6 @@
-
+<a href="<%= user_path(current_user) %>">
 <%=raw image_tag(current_user.avatar_url || gravatar_url(current_user.email,:size=>30) ) %>
-
+</a>
 
 Logged in as <%= current_user.email %>.
 <%= link_to "Log out", logout_path %>

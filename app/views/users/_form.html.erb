@@ -1,34 +1,63 @@
 <%= form_for(@user) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+          <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <% if @user.github_uid %>
+        <%# if user comes from github, just make a button to update his account
+    via a github api request or whatever... %>
+        changes to users with github account are not (yet) possible! <br/>
+    <% else %>
+        <div class="field">
+          <%= f.label :name %>
+          <br/>
+          <%= f.text_field :name %>
+        </div>
+        <div class="field">
+          <%= f.label :email %>
+          <br/>
+          <%= f.text_field :email %>
+        </div>
+        <div class="field">
+          <%= f.label :password %>
+          <br/>
+          <%= f.password_field :password %>
+        </div>
+        <div class="field">
+          <%= f.label :password_confirmation %> <br/>
+          <%= f.password_field :password_confirmation %>
+        </div>
+
+    <% end %>
+
+    <hr>
+    Change your testbed credentials here: username, password <br/>
+    <% @testbeds = Testbed.all.inject(Hash.new) { |h, tb| h[tb.shortname] = tb.name; h } %>
+    <% @testbeds.each do |shortname, name| %>
+
+        <%= fields_for UserTestbedCredential.new do |testbed_fields| %>
+            <div class="testbedform" id="<%= shortname %>">
+              <div class="field">
+                <%= testbed_fields.label name %>
+                <%= testbed_fields.hidden_field :shortname, :name => "[credentials][#{shortname}][shortname]", :value => shortname %>
+                <%= testbed_fields.text_field :username, :name => "[credentials][#{shortname}][username]" %>
+                <%= testbed_fields.password_field :password, :name => "[credentials][#{shortname}][password]" %>
+              </div>
+            </div>
+        <% end %>
+    <% end %>
+
+
+    <div class="actions">
+      <%= f.submit %>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation %> <br />
-    <%= f.password_field :password_confirmation %>
-  </div>
- 
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

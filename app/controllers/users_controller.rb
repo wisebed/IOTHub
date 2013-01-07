@@ -1,5 +1,5 @@
-  class UsersController < ApplicationController
-    skip_before_filter :require_login, :only => [:show, :index, :new, :create]
+class UsersController < ApplicationController
+  skip_before_filter :require_login, :only => [:show, :index, :new, :create]
   # GET /users
   # GET /users.json
   def index
@@ -35,6 +35,7 @@
 
   # GET /users/1/edit
   def edit
+    raise SecurityError unless (params[:id].to_i == current_user.id) or current_user.is_admin?
     @user = User.find(params[:id])
   end
 
@@ -57,7 +58,33 @@
   # PUT /users/1
   # PUT /users/1.json
   def update
+    raise SecurityError unless (params[:id].to_i == current_user.id) or current_user.is_admin?
+
     @user = User.find(params[:id])
+
+    # update the UserTestbedCrendetials here:
+    existing_credentials = @user.user_testbed_credentials
+    params[:credentials].each_value do |h|
+      updated = false
+      for_testbed = Testbed.find_by_shortname(h[:shortname])
+      existing_credentials.each { |co|
+        # updating existing credentials
+        if co.testbed == for_testbed
+          co.username = h[:username]
+          co.password = h[:password]
+          co.save
+          updated = true
+        end
+      }
+      if (not updated) and h[:username].length > 0
+        # the supplied credentials where not updated => create new object
+        new_utc = UserTestbedCredential.new(:testbed_id => for_testbed.id,
+                                            :username => h[:username],
+                                            :password => h[:password])
+        new_utc.user = @user
+        new_utc.save
+      end
+    end
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
