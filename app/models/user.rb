@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   validates_presence_of :name
 
   has_many :experiments
-  has_many :user_testbed_credentials
+  has_many :user_testbed_credentials, :dependent => :delete_all
   has_many :experiment_runs
   
   def is_admin?
