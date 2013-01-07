@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
   has_many :user_testbed_credentials
   has_many :experiment_runs
   
-  def isAdmin?
-    return false
+  def is_admin?
+    false
   end
 
   def self.create_from_github(env_hash)
