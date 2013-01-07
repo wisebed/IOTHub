@@ -30,7 +30,6 @@ class ExperimentrunsController < ApplicationController
     @run.user_id = current_user.id
     @run.runtime = params[:experiment_run][:runtime]
     @run.download_config_url = params[:experiment_run][:download_config_url]
-        #"https://raw.github.com/itm/wisebed-experiments/master/packet-tracking/config.json"
 
     respond_to do |format|
       if @run.save
