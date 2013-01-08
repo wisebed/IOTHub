@@ -27,7 +27,7 @@ class ExperimentsController < ApplicationController
   def index
     @experiments = list_public
     begin
-      @experiments_by_user = User.find(session["user_id"]).experiments
+      @experiments_by_user = current_user.experiments
     rescue Exception
       # seems we dont have a session
     end
