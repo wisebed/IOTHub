@@ -74,6 +74,7 @@ class ExperimentsController < ApplicationController
   # PUT /experiements/1.json
   def update
     @experiment = Experiment.find(params[:id])
+    raise SecurityError unless (@experiment.user == current_user) or current_user.is_admin?
 
     respond_to do |format|
       if @experiment.update_attributes(params[:experiment])
@@ -90,6 +91,7 @@ class ExperimentsController < ApplicationController
   # DELETE /experiements/1.json
   def destroy
     @experiment = Experiment.find(params[:id])
+    raise SecurityError unless (@experiment.user == current_user) or current_user.is_admin?
     @experiment.destroy
 
     respond_to do |format|
