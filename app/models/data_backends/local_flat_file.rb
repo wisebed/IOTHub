@@ -140,7 +140,7 @@ module DataBackends
     #
     # @return void
     def open_log
-      @log = File.open(@path+"/log.txt","w")
+      @log = File.open(@path+"/log.json","w")
     end
 
     # A list of files that are saved for this experimentrun.
