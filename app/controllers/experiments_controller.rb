@@ -1,6 +1,6 @@
 class ExperimentsController < ApplicationController
   skip_before_filter :require_login, :only => [:show, :list_public]
-  
+
   def list_public(howmany = 20)
     Experiment.where(:visibility => 'public')[0..howmany-1]
   end
@@ -9,7 +9,7 @@ class ExperimentsController < ApplicationController
   # GET /experiements/1.json
   def show
     @experiment = Experiment.find(params[:id])
-                                                                                      
+
     unless !current_user or current_user.is_admin? or @experiment.visibility == "public" or current_user.id == @experiment.user_id
       #@experiemnt_alternatives = find_alternatives_for(@experiment)
       render '_notpublic'
@@ -26,7 +26,7 @@ class ExperimentsController < ApplicationController
   # GET /experiements.json
   def index
     @experiments = list_public
-    begin      
+    begin
       @experiments_by_user = User.find(session["user_id"]).experiments
     rescue Exception
       # seems we dont have a session
@@ -36,7 +36,7 @@ class ExperimentsController < ApplicationController
       format.json { render json: @experiments }
     end
   end
- 
+
   # GET /experiements/new
   # GET /experiements/new.json
   def new
@@ -58,6 +58,7 @@ class ExperimentsController < ApplicationController
   def create
     @experiment = Experiment.new(params[:experiment])
     @experiment.user = current_user
+    @experiment.visibility = params[:experiment][:visibility] == 1 ? :public : :private
 
     respond_to do |format|
       if @experiment.save
@@ -99,5 +100,5 @@ class ExperimentsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
 end
