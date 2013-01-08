@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
     false
   end
 
+  def gravatar_url
+    self.avatar_url || 'http://www.gravatar.com/avatar/'+Digest::MD5.hexdigest(self.email)+"?size=#{40}"
+  end
+
   def self.create_from_github(env_hash)
     #raise env_hash.to_yaml
     nu = User.new
