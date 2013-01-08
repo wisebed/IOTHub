@@ -26,4 +26,5 @@
     </div>
 <% end %>
 
-<%= link_to ' << Back', experiment_path(@run.experiment) %>
+<%= link_to ' << Back', experiment_path(@run.experiment) %> |
+<%= link_to 'Destroy!', @run, confirm: 'Are you sure?', method: :delete %>

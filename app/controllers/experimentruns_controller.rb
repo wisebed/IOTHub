@@ -58,4 +58,16 @@ class ExperimentrunsController < ApplicationController
 
   end
 
+  # DELETE /experiments/:experiment_id/runs/:run_id
+  def destroy
+    @run = ExperimentRun.find(params[:id])
+    raise SecurityError unless (@run.user == current_user) or current_user.is_admin?
+    @run.destroy
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.json { head :no_content }
+    end
+  end
+
 end
