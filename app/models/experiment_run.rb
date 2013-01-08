@@ -59,7 +59,8 @@ class ExperimentRun < ActiveRecord::Base
         begin
           Timeout::timeout((runtime+1)*60) do
             f = @backend.log
-            wsc.attach {|msg| f.write msg}
+            f.write "["
+            wsc.attach {|msg| f.write msg+","}
             while true do sleep((runtime+1)*60) end
             # sleeping in this thread to prevent active idle with 100% cpu
           end
@@ -68,6 +69,8 @@ class ExperimentRun < ActiveRecord::Base
         ensure
           puts "[#{Time.now} | #{self.id}] timeouted. Detaching from websocket, closing file, setting state: Run finished."
           update_attribute(:state, :finished)
+          @backend.log.pos = @backend.log.pos-1 # rewind to the position of the last ,
+          @backend.log.write "]\n"
           @backend.log.close
           wsc.detach
         end
