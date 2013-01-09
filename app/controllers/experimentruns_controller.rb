@@ -15,7 +15,7 @@ class ExperimentrunsController < ApplicationController
   # GET experiments/:experiment_id/runs/new
   def new
     @run = ExperimentRun.new
-    @exp = Experiment.find(params[:experiment_id])
+    @experiment = Experiment.find(params[:experiment_id])
     respond_to do |format|
       format.html {  render :partial => "experimentruns/new", :layout => nil }
     end

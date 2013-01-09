@@ -40,7 +40,7 @@ class ExperimentsController < ApplicationController
   # GET /experiements/new
   # GET /experiements/new.json
   def new
-    @exp = Experiment.new
+    @experiment = Experiment.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -51,6 +51,7 @@ class ExperimentsController < ApplicationController
   # GET /experiements/1/edit
   def edit
     @experiment = Experiment.find(params[:id])
+    raise SecurityError unless (@experiment.user == current_user) or current_user.is_admin?
   end
 
   # POST /experiements

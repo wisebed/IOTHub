@@ -17,7 +17,7 @@
 
         <div class="field">
           <%= f.label :download_config_url %>
-          <%= f.text_field :download_config_url, {:value => @exp.default_download_config_url} %>
+          <%= f.text_field :download_config_url, {:value => @experiment.default_download_config_url} %>
         </div>
         <div class="field">
           <%= f.label :runtime, "Runtime in minutes" %>
@@ -29,7 +29,7 @@
           <%= f.select :testbed, current_user.user_testbed_credentials.collect {|tb| tb.shortname } %>
           <%#= f.select_field :testbed, options_from_collection_for_select(current_user.user_testbed_credentials, :shortname, :shortname) %>
         </div>
-        <%= f.hidden_field :experiment_id, {:value => @exp.id} %>
+        <%= f.hidden_field :experiment_id, {:value => @experiment.id} %>
         <%= f.submit %>
         </div>
     <% end %>
