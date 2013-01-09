@@ -31,11 +31,11 @@
 
   <div class="span9">
 
-    <% if notice %>
-        <p class="notice"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-        <p class="alert"><%= alert %></p>
+    <% flash.each do |name, msg| %>
+        <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+          <a class="close" data-dismiss="alert">×</a>
+          <%= msg %>
+        </div>
     <% end %>
 
     <%= yield %>

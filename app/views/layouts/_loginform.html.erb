@@ -1,10 +1,10 @@
 <% if current_user %>
     <li>
-      <a href="<%= user_path(current_user) %>" style="padding-right: 5px; padding-left: 200px">
+      <a href="<%= user_path(current_user) %>" style="padding-right: 0px; margin-left: 200px; padding-top: 5px; padding-bottom: 5px;">
         <%= raw image_tag(current_user.gravatar_url+"&size=30") %>
       </a>
     </li>
-    <li> <%= link_to current_user.email.strip, user_path(current_user), :style => "padding-left: 0px;" %></li>
+    <li> <%= link_to current_user.email.strip, user_path(current_user), :style => "margin-left: 0px;" %></li>
       <%= if current_user.user_testbed_credentials.empty?
             "<li>"
             link_to "please add at least one testbed to your account!", edit_user_path(current_user), :style => "color: red;"
@@ -12,10 +12,10 @@
           end
       %>
     <li>
-      <%= link_to "Log out", logout_path %>
+      <%= button_to "Log out", logout_path, :method => :get, :class => "btn btn-small btn-danger", :style => "margin-top: 10px;"%>
     </li>
 <% else %>
-    <li>
-      <%= link_to "log in with github.com", "/auth/github" %>
+    <li style="margin-left: 200px;">
+      <%= button_to "log in with github.com", "/auth/github", :method => :get, :class => "btn btn-medium" %>
     </li>
 <% end %>

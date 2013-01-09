@@ -1,18 +1,12 @@
-<%= @run.experiment.name %> | <%= @run.id %> on <%= @run.testbed.shortname %></h1>
+<h1> Run of <i><%= @run.experiment.name %></i> on <%= @run.testbed.shortname.upcase %></h1>
 
 <p>
   <b>created by:</b>
-  <%= @run.user.email %>
+  <%= link_to @run.user.email, user_path(@run.user) %>
 </p>
 <p>
-    <b>status:</b> <%= @run.state.to_s %><br>
-    <% if @run.state.to_sym == :running %>
-        until <%= @run.finish_time %>
-    <% elsif @run.state.to_sym == :finished %>
-        at <%= @run.finish_time %>
-    <% else %>
-        from <%= @run.start_time %> to <%= @run.finish_time ? @run.finish_time : "not specified" %>
-    <% end %>
+  <b>status:</b>
+  <%= render :partial => "status", :locals => {:run => @run} %>
 </p>
 
 <p>
@@ -22,9 +16,14 @@
 
 <% if current_user %>
     <div id="experiment_run">
-      <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :id => :experiment_run_button %>
+      <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :id => :experiment_run_button, :class => "btn btn-primary" %>
     </div>
+    <% if @run.user == current_user or current_user.is_admin? %>
+        <br/>
+        <%= button_to 'Destroy!', @run, confirm: 'Are you sure?', :class => "btn-small btn-danger", :method => :delete %>
+    <% end %>
 <% end %>
 
-<%= link_to ' << Back', experiment_path(@run.experiment) %> |
-<%= link_to 'Destroy!', @run, confirm: 'Are you sure?', method: :delete %>
+
+
+

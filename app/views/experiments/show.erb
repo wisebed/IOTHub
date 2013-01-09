@@ -12,22 +12,21 @@
 <p>
     <%=raw @experiment.experiment_runs.empty? ? "<b> no runs yet! </b>" : "<b> runs:</b>" %>
 
-    <% @experiment.experiment_runs.each do |testrun| %>
-        <div><%= link_to("run # #{testrun.id}
-        | #{testrun.state.nil?  ? 'just created' : testrun.state.to_s}
-        | #{testrun.finish_time || testrun.start_time || 'in the future...' }
-        ", experiment_run_path(@experiment,testrun)) %></div>
-    <% end %>
+    <% @experiment.experiment_runs.each do |run| %>
+        <a href="<%= experiment_run_path(@experiment,run) %>" >
+            run # <%= run.id %> | <%=  render :partial => 'experimentruns/status', :locals => {:run => run} %>
+        </a>
+  <% end %>
 </p>
 
 <% if current_user %>
     <div id="experiment_run">
-        <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :id => :experiment_run_button %>
+        <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :class => "btn btn-primary" %>
     </div>
 <% end %>
 
-
+<br/>
 <% if current_user == @experiment.user or current_user.is_admin? %>
-    <%= link_to 'Edit', edit_experiment_path(@experiment)%> |
-    <%= link_to 'Destroy', @experiment, confirm: 'Are you sure?', method: :delete %>
+    <%= button_to 'Edit', edit_experiment_path(@experiment), :method => :get, :class => "btn btn-small" %>
+    <%= button_to 'Destroy', @experiment, confirm: 'Are you sure?', method: :delete, :class => "btn btn-small btn-danger" %>
 <% end %>

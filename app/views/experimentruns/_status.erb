@@ -1,0 +1,15 @@
+<% case run.state.to_sym
+
+ when :scheduled %>
+    <span class="label">scheduled</span>
+<% when :running %>
+    <span class="label label-info">running</span>
+    add link to testbed for live view here
+<% when :finished %>
+    <span class="label label-success">finished</span>
+<% when :failed %>
+    <span class="label label-important">failed</span>
+    <%# TODO: display failreason here %>
+<% else %>
+    <span class="label">just created</span>
+<% end %>
