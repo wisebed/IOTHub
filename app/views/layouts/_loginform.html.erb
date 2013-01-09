@@ -1,17 +1,16 @@
 <% if current_user %>
     <li>
-      <a href="<%= user_path(current_user) %>">
+      <a href="<%= user_path(current_user) %>" style="padding-right: 5px; padding-left: 200px">
         <%= raw image_tag(current_user.gravatar_url+"&size=30") %>
       </a>
     </li>
-    <li>
-      <%= current_user.email %>
+    <li> <%= link_to current_user.email.strip, user_path(current_user), :style => "padding-left: 0px;" %></li>
       <%= if current_user.user_testbed_credentials.empty?
-            "<br/>"
+            "<li>"
             link_to "please add at least one testbed to your account!", edit_user_path(current_user), :style => "color: red;"
+            "</li>"
           end
       %>
-    </li>
     <li>
       <%= link_to "Log out", logout_path %>
     </li>

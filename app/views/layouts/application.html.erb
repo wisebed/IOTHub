@@ -17,6 +17,7 @@
           <span class="icon-bar"></span>
         </a>
         <a class="brand" href="/">IoTHub</a>
+
         <div class="nav-collapse">
           <ul class="nav">
             <li><%= link_to "Experiments", experiments_path %></li>
@@ -30,8 +31,12 @@
 
   <div class="span9">
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice %>
+        <p class="notice"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+        <p class="alert"><%= alert %></p>
+    <% end %>
 
     <%= yield %>
 
