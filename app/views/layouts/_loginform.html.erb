@@ -1,3 +1,22 @@
-<%= link_to "log in with github.com", "/auth/github" %>
-<%#= link_to "Sign up", signup_path %>
-<%#= link_to "log in", login_path %>
+<% if current_user %>
+    <li>
+      <a href="<%= user_path(current_user) %>">
+        <%= raw image_tag(current_user.gravatar_url+"&size=30") %>
+      </a>
+    </li>
+    <li>
+      <%= current_user.email %>
+      <%= if current_user.user_testbed_credentials.empty?
+            "<br/>"
+            link_to "please add at least one testbed to your account!", edit_user_path(current_user), :style => "color: red;"
+          end
+      %>
+    </li>
+    <li>
+      <%= link_to "Log out", logout_path %>
+    </li>
+<% else %>
+    <li>
+      <%= link_to "log in with github.com", "/auth/github" %>
+    </li>
+<% end %>
