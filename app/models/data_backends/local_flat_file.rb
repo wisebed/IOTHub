@@ -1,8 +1,12 @@
 module DataBackends
   class LocalFlatFile
 
-    # TODO: change this path to something more useful
-    FILE_BASE_PATH = "/tmp/"
+    if ENV["storage_base_dir"]
+      FILE_BASE_PATH = ENV["storage_base_dir"]
+    else
+      FILE_BASE_PATH = "/tmp/"
+    end
+
 
     extend ActiveModel::Naming
 
