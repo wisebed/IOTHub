@@ -5,14 +5,13 @@
       </a>
     </li>
     <li> <%= link_to current_user.email.strip, user_path(current_user), :style => "margin-left: 0px;" %></li>
-      <%= if current_user.user_testbed_credentials.empty?
-            "<li>"
-            link_to "please add at least one testbed to your account!", edit_user_path(current_user), :style => "color: red;"
-            "</li>"
-          end
-      %>
+    <% if current_user.user_testbed_credentials.empty? %>
+        <li>
+          <%= link_to "please add at least one testbed to your account!", edit_user_path(current_user), :style => "color: red;" %>
+        </li>
+    <% end %>
     <li>
-      <%= button_to "Log out", logout_path, :method => :get, :class => "btn btn-small btn-danger", :style => "margin-top: 10px;"%>
+      <%= button_to "Log out", logout_path, :method => :get, :class => "btn btn-small btn-danger", :style => "margin-top: 10px;" %>
     </li>
 <% else %>
     <li style="margin-left: 200px;">

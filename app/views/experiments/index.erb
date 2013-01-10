@@ -1,8 +1,9 @@
 <% if @experiments_by_user and !@experiments_by_user.empty? %>
   <h1> Your experiments: </h1>
+    <il>
   <% @experiments_by_user.each do |exp| %>
-    <%= link_to(exp.name, experiment_path(exp)) %> <br />
+    <li><%= link_to(exp.name, experiment_path(exp)) %></li><br />
   <% end %>
-  
+    </il>
 <% end %>
 <%= render "list_public" %>

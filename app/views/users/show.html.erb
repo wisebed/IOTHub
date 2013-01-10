@@ -11,9 +11,11 @@
 </p>
 <p>
   <b>Experiments:</b></br>
+  <il>
   <% @user.experiments.each do |exp| %>
-    <%= link_to(exp.name, experiment_path(exp)) %> <br />                                  
+    <li><%= link_to(exp.name, experiment_path(exp)) %></li> <br />
   <% end %>
+  </il>
 </p>
 
 <% if (session["user_id"] == @user.id) %>

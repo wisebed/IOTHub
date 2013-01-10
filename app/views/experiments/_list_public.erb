@@ -4,11 +4,12 @@
   <% if @experiments.empty? %>
     Sorry, no public experiments so far!
 
+  <il>
   <% else @experiments.each do |exp| %>
-    <%= link_to(exp.name, experiment_path(exp)) %> | <%= link_to(exp.user.name, user_path(exp.user)) %> <br />
+    <li><%= link_to(exp.name, experiment_path(exp)) %> | <%= link_to(exp.user.name, user_path(exp.user)) %></li> <br />
   
-    <% end %> 
-  
+    <% end %>
+      </il>
   
   <% end %>
   
