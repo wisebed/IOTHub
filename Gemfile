@@ -66,7 +66,7 @@ gem "daemons"
 # SOAP client library
 #gem 'savon'
 
-gem "wisebedclientruby"#, :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
+gem "wisebedclientruby", ">=0.0.47", :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
 
 platforms :ruby do
     # for LocalGit ExperimentData Objects

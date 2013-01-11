@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/MrMarvin/wisebedclient-ruby.git
+  revision: 715f2fa349e3d3c52fb86c3fad3bc6fe3d5c54c9
+  specs:
+    wisebedclientruby (0.0.47)
+      httparty
+      simpleblockingwebsocketclient
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -78,7 +86,7 @@ GEM
     has_scope (0.5.1)
     hashie (1.2.0)
     hike (1.2.1)
-    httparty (0.9.0)
+    httparty (0.10.0)
       multi_json (~> 1.0)
       multi_xml
     httpauth (0.2.0)
@@ -111,7 +119,7 @@ GEM
       polyamorous (~> 0.5.0)
     mime-types (1.19)
     multi_json (1.5.0)
-    multi_xml (0.5.1)
+    multi_xml (0.5.2)
     multipart-post (1.1.5)
     mysql2 (0.3.11)
     nokogiri (1.5.6)
@@ -197,9 +205,6 @@ GEM
       multi_json (~> 1.0, >= 1.0.2)
     warden (1.2.1)
       rack (>= 1.0)
-    wisebedclientruby (0.0.45)
-      httparty
-      simpleblockingwebsocketclient
     wiseml-ruby (0.0.3)
       nokogiri
       roxml
@@ -223,5 +228,5 @@ DEPENDENCIES
   therubyracer
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
-  wisebedclientruby
+  wisebedclientruby (>= 0.0.47)!
   wiseml-ruby

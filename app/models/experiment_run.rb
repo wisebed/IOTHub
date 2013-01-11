@@ -51,7 +51,7 @@ class ExperimentRun < ActiveRecord::Base
         update_attribute(:state, :running)
         experiment_id = tb.experiments(JSON.parse(self.reservation))
         update_attribute(:tb_exp_id, experiment_id)
-        tb.flash(experiment_id, self.download_config_url)
+        tb.flash(experiment_id, JSON.parse(@backend.flash_config))
         # TODO: wait for flashing to finish
 
         wsc = Wisebed::WebsocketClient.new(experiment_id)

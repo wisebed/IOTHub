@@ -76,7 +76,7 @@ module DataBackends
     def init_config
 
       # if the config file is already locally stored, simply parse that and return
-      if File.exists?(File.join(@path,"config.json"))
+      if File.exists?(File.join(@path,"flash_config.json"))
         @parsed_config = JSON.parse(File.open(File.join(@path,"config.json"),"r").read)
         return
       end
@@ -99,9 +99,14 @@ module DataBackends
         download = (c["binaryProgramUrl"][0..6] =~ /^http..\//) ? c["binaryProgramUrl"] : @exp_run_obj.download_config_url.split("/")[0..-2].join("/")+"/"+c["binaryProgramUrl"]
 
         File.open(File.join(@path, filename), 'wb') do |f|
-          f.write(open(download).read)
+          f.write(open(download).read) # download!
         end
       end
+
+      File.open(File.join(@path, "flash_config.json"), 'w') do |f|
+        f.write(Wisebed::Client.new.experimentconfiguration(@exp_run_obj.download_config_url).to_json) # download!
+      end
+
       # if we just donwloaded things, lets calculate the checksum
       @exp_run_obj.update_attribute(:config_checksum,init_checksum)
     end
@@ -156,6 +161,10 @@ module DataBackends
         h[File.basename(f)] = File.size(f)
       end
       h
+    end
+
+    def flash_config
+      File.read(@path+"/flash_config.json")
     end
 
   end
