@@ -9,6 +9,8 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+ENV.update YAML.load_file(File.join(File.dirname(__FILE__),"secret_env_vars.yml"))
+
 module IOTHub
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
