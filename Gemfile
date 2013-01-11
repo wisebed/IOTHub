@@ -5,16 +5,7 @@ gem 'rails', '3.2.11'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-if defined?(JRUBY_VERSION)
-  gem 'jdbc-mysql2'
-  gem 'activerecord-mysql-adapter'
-  gem 'activerecord-jdbcsmysql-adapter'
-  gem 'jruby-openssl'
-  gem 'jruby-rack'
-  gem 'warbler'
-else
-  gem 'mysql2'
-end
+gem 'mysql2'
 
 
 # Gems used only for assets and not required
@@ -63,17 +54,6 @@ gem "meta_search",    '>= 1.1.0.pre'
 gem 'delayed_job_active_record'
 gem "daemons"
 
-# SOAP client library
-#gem 'savon'
 
-gem "wisebedclientruby", ">=0.0.49", :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
-gem "simpleblockingwebsocketclient", :git => "git://github.com/MrMarvin/simpleblockingwebsocketclient.git"
-
-platforms :ruby do
-    # for LocalGit ExperimentData Objects
-    # gem 'grit'
-end
-
-platforms :jruby do
-    #gem 'spoon'
-end
+gem "wisebedclientruby", ">=0.0.49"
+gem "simpleblockingwebsocketclient"
