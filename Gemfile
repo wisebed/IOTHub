@@ -66,7 +66,7 @@ gem "daemons"
 # SOAP client library
 #gem 'savon'
 
-gem "wisebedclientruby", ">=0.0.48", :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
+gem "wisebedclientruby", ">=0.0.49", :git => 'git://github.com/MrMarvin/wisebedclient-ruby.git'
 gem "simpleblockingwebsocketclient", :git => "git://github.com/MrMarvin/simpleblockingwebsocketclient.git"
 
 platforms :ruby do
