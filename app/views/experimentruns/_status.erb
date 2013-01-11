@@ -1,10 +1,10 @@
 <% case run.state.to_sym
 
- when :scheduled %>
+ when :canrun %>
     <span class="label">scheduled</span>
 <% when :running %>
     <span class="label label-info">running</span>
-    add link to testbed for live view here
+    <%= link_to "view live", "http://wisebed.itm.uni-luebeck.de/#nav=testbed&testbedId=#{run.testbed.shortname}&experimentId=#{run.tb_exp_id}", :class => "btn btn-mini", :target => "_blank" %>
 <% when :finished %>
     <span class="label label-success">finished</span>
 <% when :failed %>
