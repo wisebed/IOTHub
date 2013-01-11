@@ -43,8 +43,6 @@ gem 'jquery-rails'
 gem 'sorcery', '>= 0.7.13'
 gem 'omniauth-github'
 
-gem 'wiseml-ruby'
-
 # gems needed for activeAdmin
 gem 'activeadmin'
 gem "meta_search",    '>= 1.1.0.pre'
