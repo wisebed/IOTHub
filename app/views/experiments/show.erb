@@ -12,16 +12,18 @@
 <p>
     <%=raw @experiment.experiment_runs.empty? ? "<b> no runs yet! </b>" : "<b> runs:</b>" %>
 
+    <il>
     <% @experiment.experiment_runs.each do |run| %>
-        <a href="<%= experiment_run_path(@experiment,run) %>" >
+        <li><a href="<%= experiment_run_path(@experiment,run) %>" >
             run # <%= run.id %> | <%=  render :partial => 'experimentruns/status', :locals => {:run => run} %>
-        </a>
+        </a></li>
   <% end %>
+    </il>
 </p>
 
 <% if current_user %>
     <div id="experiment_run">
-        <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :class => "btn btn-primary" %>
+        <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :id => :experiment_run_button, :class => "btn btn-primary" %>
     </div>
 <% end %>
 
