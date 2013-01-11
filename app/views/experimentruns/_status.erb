@@ -9,7 +9,7 @@
     <span class="label label-success">finished</span>
 <% when :failed %>
     <span class="label label-important">failed</span>
-    <%# TODO: display failreason here %>
+    <%= run.failreason %>
 <% else %>
     <span class="label">just created</span>
 <% end %>

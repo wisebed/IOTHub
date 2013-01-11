@@ -20,7 +20,7 @@ class ExperimentRun < ActiveRecord::Base
             {
                 "urnPrefix" => tbcreds.testbed.urn_prefix_list,
                 "username" => tbcreds.username,
-                "password"=> tbcreds.password
+                "password" => tbcreds.password
             }
         ]
     }
@@ -32,68 +32,85 @@ class ExperimentRun < ActiveRecord::Base
   end
 
   def connected_and_logged_in_tb
-    @tb = Wisebed::Testbed.new(testbed.shortname)
-    @tb.login!(login_data)
-    @tb
+    begin
+      @tb = Wisebed::Testbed.new(testbed.shortname)
+      @tb.login!(login_data)
+      @tb
+    rescue SecurityError => e
+      update_attribute(:state, :failed)
+      update_attribute(:failreason, e.message)
+      exit(0) # so delayed_job does not try to run it again
+    end
   end
 
   # Executes this testrun on the testbed.
   # Only executeable when this model is valid?
   def run!
-    init_backend! unless @backend
-    make_reservation unless self.reservation
+    begin # for rescue at the bottom
+      init_backend! unless @backend
+      make_reservation unless self.reservation
 
-    #puts "[#{Time.now} | #{self.id}] state: #{self.state.to_s}, start_time: #{self.start_time ? self.start_time : "nil"}, finish_time: #{self.finish_time ? self.finish_time : "nil"} "
-    #puts "is this reality? #{(self.state.to_sym == :canrun).to_s} #{(self.start_time <= Time.now).to_s} #{(self.finish_time > Time.now).to_s}"
-    if (self.state.to_sym == :canrun) and (self.start_time <= Time.now) and (self.finish_time > Time.now)
-      Thread.new do
-        puts "[#{Time.now} | #{self.id}] running experimentRun #{self.id} on #{self.testbed.shortname} now!"
-        @backend.event_log.log "run started on #{self.testbed.shortname}"
-        update_attribute(:state, :running)
-        experiment_id = tb.experiments(JSON.parse(self.reservation))
-        @backend.event_log.log "requesting experiment_id, it is: #{experiment_id}"
-        update_attribute(:tb_exp_id, experiment_id)
-        tb.flash(experiment_id, JSON.parse(@backend.flash_config))
-        @backend.event_log.log "flashing nodes"
-        # TODO: wait for flashing to finish
+      #puts "[#{Time.now} | #{self.id}] state: #{self.state.to_s}, start_time: #{self.start_time ? self.start_time : "nil"}, finish_time: #{self.finish_time ? self.finish_time : "nil"} "
+      #puts "is this reality? #{(self.state.to_sym == :canrun).to_s} #{(self.start_time <= Time.now).to_s} #{(self.finish_time > Time.now).to_s}"
+      if (self.state.to_sym == :canrun) and (self.start_time <= Time.now) and (self.finish_time > Time.now)
+        Thread.new do
 
-        wsc = Wisebed::WebsocketClient.new(experiment_id)
-        puts "[#{Time.now} | #{self.id}] attaching in a timeout loop of #{(runtime+1)*60} seconds"
-        @backend.event_log.log "attaching to testbed websocket (for #{(runtime+1)*60} seconds)"
-        begin
-          Timeout::timeout((runtime+1)*60) do
-            f = @backend.log
-            f.write "["
-            wsc.attach {|msg| f.write msg+","}
-            while true do sleep((runtime+1)*60) end
-            # sleeping in this thread to prevent active idle with 100% cpu
+          puts "[#{Time.now} | #{self.id}] running experimentRun #{self.id} on #{self.testbed.shortname} now!"
+          @backend.event_log.log "run started on #{self.testbed.shortname}"
+          update_attribute(:state, :running)
+          experiment_id = tb.experiments(JSON.parse(self.reservation))
+          @backend.event_log.log "requesting experiment_id, it is: #{experiment_id}"
+          update_attribute(:tb_exp_id, experiment_id)
+          tb.flash(experiment_id, JSON.parse(@backend.flash_config))
+          @backend.event_log.log "flashing nodes"
+          # TODO: wait for flashing to finish
+
+          wsc = Wisebed::WebsocketClient.new(experiment_id)
+          puts "[#{Time.now} | #{self.id}] attaching in a timeout loop of #{(runtime+1)*60} seconds"
+          @backend.event_log.log "attaching to testbed websocket (for #{(runtime+1)*60} seconds)"
+          begin
+            Timeout::timeout((runtime+1)*60) do
+              f = @backend.log
+              f.write "["
+              wsc.attach { |msg| f.write msg+"," }
+              while true do
+                sleep((runtime+1)*60)
+              end
+              # sleeping in this thread to prevent active idle with 100% cpu
+            end
+          rescue Timeout::Error => te
+            # do nothing here
+          ensure
+            puts "[#{Time.now} | #{self.id}] timeouted. Detaching from websocket, closing file, setting state: Run finished."
+            @backend.event_log.log "detaching from testbed websocket, closing log files"
+            update_attribute(:state, :finished)
+            @backend.log.pos = @backend.log.pos-1 # rewind to the position of the last ,
+            @backend.log.write "]\n"
+            @backend.log.close
+            wsc.detach
+            @backend.event_log.log "run finished successfully"
           end
-        rescue Timeout::Error => te
-          # do nothing here
-        ensure
-          puts "[#{Time.now} | #{self.id}] timeouted. Detaching from websocket, closing file, setting state: Run finished."
-          @backend.event_log.log "detaching from testbed websocket, closing log files"
-          update_attribute(:state, :finished)
-          @backend.log.pos = @backend.log.pos-1 # rewind to the position of the last ,
-          @backend.log.write "]\n"
-          @backend.log.close
-          wsc.detach
-          @backend.event_log.log "run finished successfully"
+
+
+        end
+      else
+        if self.reservation and self.start_time
+          # if we have a reservation, run this again at the starting time
+          puts "[#{Time.now} | #{self.id}] has a reservation and a start_time. Creating new job for the start_time (#{self.start_time})"
+          self.delay(:run_at => self.start_time).run!
+        else
+          # however if not reserved yet, just try again in a minute
+          puts "[#{Time.now} | #{self.id}] has no reservation. Creating new job for retry in 1 minute!"
+          self.delay(:run_at => 1.minutes.from_now).run!
         end
       end
-    else
-      if self.reservation and self.start_time
-        # if we have a reservation, run this again at the starting time
-        puts "[#{Time.now} | #{self.id}] has a reservation and a start_time. Creating new job for the start_time (#{self.start_time})"
-        self.delay(:run_at => self.start_time).run!
-      else
-        # however if not reserved yet, just try again in a minute
-        puts "[#{Time.now} | #{self.id}] has no reservation. Creating new job for retry in 1 minute!"
-        self.delay(:run_at => 1.minutes.from_now).run!
-      end
+
+    # huge rescue around the whole processing
+    rescue RuntimeError => e
+      update_attribute(:state, :failed)
+      update_attribute(:failreason, e.message)
     end
   end
-
 
 
   def make_reservation()
@@ -109,7 +126,7 @@ class ExperimentRun < ActiveRecord::Base
     rescue RuntimeError => e
       # could not make reservation right now, trying to schedule it
       reservations = tb.public_reservations(Time.now, Time.now+1.day)
-      reservations.sort_by! {|res| res["to"]/1000}
+      reservations.sort_by! { |res| res["to"]/1000 }
       reservations.each do |r|
         begin
           # rest-ws returns JS compatible int with milliseconds and UTC tz.

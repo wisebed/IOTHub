@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/MrMarvin/wisebedclient-ruby.git
-  revision: 715f2fa349e3d3c52fb86c3fad3bc6fe3d5c54c9
+  revision: 0aaf42d5cc40c4b55b78079b7e1dfa384d348f00
   specs:
-    wisebedclientruby (0.0.47)
+    wisebedclientruby (0.0.48)
       httparty
       simpleblockingwebsocketclient
 
@@ -228,5 +228,5 @@ DEPENDENCIES
   therubyracer
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
-  wisebedclientruby (>= 0.0.47)!
+  wisebedclientruby (>= 0.0.48)!
   wiseml-ruby
