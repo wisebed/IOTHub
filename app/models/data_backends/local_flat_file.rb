@@ -35,11 +35,11 @@ module DataBackends
     # @return [DataBackends::LocalFlatFile] the new object
     def initialize(exp_run_obj)
       @exp_run_obj = exp_run_obj
-      puts "[#{Time.now} | #{@exp_run_obj.id.to_s}] init backend (#{self.object_id.to_s})"
+
       @path = FILE_BASE_PATH+"/"+@exp_run_obj.id.to_s+"_"+@exp_run_obj.testbed_id.to_s+"_"+@exp_run_obj.created_at.to_i.to_s
       unless File.directory?(@path)
-        puts "[#{Time.now}] no such directory: #{@path} Creating it."
         system("mkdir -p #{@path}") # TODO: think about security!
+        event_log.log "Initializing empty ExperimentRun backend. (no such directory: #{@path} Creating it.)"
       end
 
       init_config
@@ -81,13 +81,14 @@ module DataBackends
         return
       end
 
-      puts "[#{Time.now}] backend: no local files found, downloading..."
+      event_log.log "no local files found, downloading..."
 
       # otherwise: download the config and all referred binaries
       require 'open-uri'
       # TODO: think about security. Should be safe as long as this is not stored in web-root or something...
       File.open(File.join(@path,"config.json"), 'wb') do |f|
-        f.write(open(@exp_run_obj.download_config_url).read)
+        f.write(open(@exp_run_obj.download_config_url).read) # downloading!
+        event_log.log "downloading: #{@exp_run_obj.download_config_url}"
       end
       @parsed_config = JSON.parse(File.open(File.join(@path,"config.json"),"r").read)
 
@@ -100,14 +101,16 @@ module DataBackends
 
         File.open(File.join(@path, filename), 'wb') do |f|
           f.write(open(download).read) # download!
+          event_log.log "downloading: #{download}"
         end
       end
 
       File.open(File.join(@path, "flash_config.json"), 'w') do |f|
         f.write(Wisebed::Client.new.experimentconfiguration(@exp_run_obj.download_config_url).to_json) # download!
+        event_log.log "downloading: flash_config.json"
       end
 
-      # if we just donwloaded things, lets calculate the checksum
+      # if we just downloaded things, lets calculate the checksum
       @exp_run_obj.update_attribute(:config_checksum,init_checksum)
     end
 
@@ -126,6 +129,7 @@ module DataBackends
         # "compress" the concated checksums by checksumming
         @checksum = Digest::SHA1.hexdigest(long_checksum_string)
       end
+      event_log.log "calculating new checksum over local files: #{@checksum}"
       @checksum
     end
 
@@ -163,8 +167,39 @@ module DataBackends
       h
     end
 
+    # Returns the unparsed flash_config.json file
+    # @return [String] the files content
     def flash_config
       File.read(@path+"/flash_config.json")
+    end
+
+    # The event log.
+    # Simply use with the monkey-added log method:
+    #   event_log.log "one random log line"
+    #
+    # @return [Array] with log method
+    def event_log
+      open_event_log unless @event_log
+      @event_log
+    end
+
+    # Opens the event_log or initializes a new one
+    #
+    # @return void
+    def open_event_log
+      file = @path+"/event_log.json"
+
+      if File.exists?(file)
+        @event_log = JSON.parse(File.read(file))
+      else
+        @event_log = Array.new
+      end
+      @event_log.instance_variable_set(:@location, file)
+      @event_log.define_singleton_method(:log) do |line|
+        self.push({:t => Time.now, :l => line})
+        File.open(@location,"w") { |f| f.write self.to_json }
+      end
+
     end
 
   end

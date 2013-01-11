@@ -48,14 +48,18 @@ class ExperimentRun < ActiveRecord::Base
     if (self.state.to_sym == :canrun) and (self.start_time <= Time.now) and (self.finish_time > Time.now)
       Thread.new do
         puts "[#{Time.now} | #{self.id}] running experimentRun #{self.id} on #{self.testbed.shortname} now!"
+        @backend.event_log.log "run started on #{self.testbed.shortname}"
         update_attribute(:state, :running)
         experiment_id = tb.experiments(JSON.parse(self.reservation))
+        @backend.event_log.log "requesting experiment_id, it is: #{experiment_id}"
         update_attribute(:tb_exp_id, experiment_id)
         tb.flash(experiment_id, JSON.parse(@backend.flash_config))
+        @backend.event_log.log "flashing nodes"
         # TODO: wait for flashing to finish
 
         wsc = Wisebed::WebsocketClient.new(experiment_id)
         puts "[#{Time.now} | #{self.id}] attaching in a timeout loop of #{(runtime+1)*60} seconds"
+        @backend.event_log.log "attaching to testbed websocket (for #{(runtime+1)*60} seconds)"
         begin
           Timeout::timeout((runtime+1)*60) do
             f = @backend.log
@@ -68,11 +72,13 @@ class ExperimentRun < ActiveRecord::Base
           # do nothing here
         ensure
           puts "[#{Time.now} | #{self.id}] timeouted. Detaching from websocket, closing file, setting state: Run finished."
+          @backend.event_log.log "detaching from testbed websocket, closing log files"
           update_attribute(:state, :finished)
           @backend.log.pos = @backend.log.pos-1 # rewind to the position of the last ,
           @backend.log.write "]\n"
           @backend.log.close
           wsc.detach
+          @backend.event_log.log "run finished successfully"
         end
       end
     else
@@ -92,7 +98,8 @@ class ExperimentRun < ActiveRecord::Base
 
   def make_reservation()
     begin
-      puts "[#{Time.now} | #{self.id}] Trying to reservate right now"
+      puts "[#{Time.now} | #{self.id}] Trying to make a reservation right now"
+      @backend.event_log.log "trying to make a reservation right now"
       reservation = tb.make_reservation(Time.now, Time.now+(runtime.minutes), "Reservation via IoTHub for #{user.name}", @backend.config.nodes)
       update_attributes(:state => :canrun,
                         :reservation => reservation.to_json,
@@ -107,14 +114,16 @@ class ExperimentRun < ActiveRecord::Base
         begin
           # rest-ws returns JS compatible int with milliseconds and UTC tz.
           try_to_start_at = Time.at(r["to"]/1000+1.minute)
-          puts "[#{Time.now} | #{self.id}] Trying to reservate at: #{try_to_start_at}"
+          puts "[#{Time.now} | #{self.id}] Trying to make a reservation at: #{try_to_start_at}"
+          @backend.event_log.log "trying to make a reservation at: #{try_to_start_at}"
           reservation = tb.make_reservation(try_to_start_at, try_to_start_at+(runtime.minutes), "Reservation via IoTHub for #{user.name}", @backend.config.nodes)
           update_attributes(:state => :canrun,
                             :reservation => reservation.to_json,
                             :start_time => try_to_start_at,
                             :finish_time => try_to_start_at+(runtime.minutes)
           )
-          puts "[#{Time.now} | #{self.id}] make_reservation: Reservation made at #{try_to_start_at.in_time_zone}"
+          puts "[#{Time.now} | #{self.id}] successfully made a reservation at #{try_to_start_at}"
+          @backend.event_log.log "successfully made a reservation at #{try_to_start_at}"
           break
         rescue RuntimeError => e
           # do nothing, try next
@@ -123,6 +132,7 @@ class ExperimentRun < ActiveRecord::Base
     end
     # if still not in :canrun state, set it to :scheduled to try later
     puts "[#{Time.now} | #{self.id}] make_reservation: could not make reservation, scheduling it for later" unless self.reservation
+    @backend.event_log.log "WARNING! could not make a reservation on #{testbed.shortname}, trying again later..." unless self.reservation
     update_attribute(:state, :scheduled) unless self.reservation
   end
 
