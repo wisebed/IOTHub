@@ -24,3 +24,5 @@ doc/
 # do not include these files in repository for security reasons
 secret_token.yml
 config/secret_env_vars.yml
+
+config/database.yml
