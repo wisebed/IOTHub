@@ -70,13 +70,15 @@ class UsersController < ApplicationController
       existing_credentials.each { |co|
         # updating existing credentials
         if co.testbed == for_testbed
-          co.username = h[:username]
-          co.password = h[:password]
-          co.save
+          if h[:password].gsub("*","").length > 0
+            co.username = h[:username]
+            co.password = h[:password]
+            co.save
+          end
           updated = true
         end
       }
-      if (not updated) and h[:username].length > 0
+      if (not updated) and h[:password].gsub("*","").length > 0
         # the supplied credentials where not updated => create new object
         new_utc = UserTestbedCredential.new(:testbed_id => for_testbed.id,
                                             :username => h[:username],

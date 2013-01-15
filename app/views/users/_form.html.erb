@@ -14,7 +14,7 @@
     <% if @user.github_uid %>
         <%# if user comes from github, just make a button to update his account
     via a github api request or whatever... %>
-        changes to users with github account are not (yet) possible! <br/>
+        <strong>Sorry</strong>, changes to users with github account are not (yet) possible! <br/>
     <% else %>
         <div class="field">
           <%= f.label :name %>
@@ -40,16 +40,20 @@
 
     <hr>
     Change your testbed credentials here: username, password <br/>
-    <% @testbeds = Testbed.all.inject(Hash.new) { |h, tb| h[tb.shortname] = tb.name; h } %>
-    <% @testbeds.each do |shortname, name| %>
+    <% Testbed.all.each do |tb| %>
+        <%
+           users_credentials_for_current_testbed = UserTestbedCredential.where(:user_id => @user.id, :testbed_id => tb.id).first
+           user_username = users_credentials_for_current_testbed.nil? ? "" : users_credentials_for_current_testbed.username
+           user_password = users_credentials_for_current_testbed.nil? ? "" : "*"*12
+        %>
 
         <%= fields_for UserTestbedCredential.new do |testbed_fields| %>
-            <div class="testbedform" id="<%= shortname %>">
+            <div class="testbedform" id="<%= tb.shortname %>">
               <div class="field">
-                <%= testbed_fields.label name %>
-                <%= testbed_fields.hidden_field :shortname, :name => "[credentials][#{shortname}][shortname]", :value => shortname %>
-                <%= testbed_fields.text_field :username, :name => "[credentials][#{shortname}][username]" %>
-                <%= testbed_fields.password_field :password, :name => "[credentials][#{shortname}][password]" %>
+                <%= testbed_fields.label tb.name %>
+                <%= testbed_fields.hidden_field :shortname, :name => "[credentials][#{tb.shortname}][shortname]", :value => tb.shortname %>
+                <%= testbed_fields.text_field :username, :name => "[credentials][#{tb.shortname}][username]", :value => user_username %>
+                <%= testbed_fields.password_field :password, :name => "[credentials][#{tb.shortname}][password]", :value => user_password %>
               </div>
             </div>
         <% end %>
