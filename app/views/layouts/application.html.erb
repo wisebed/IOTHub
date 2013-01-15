@@ -20,8 +20,8 @@
 
         <div class="nav-collapse">
           <ul class="nav">
-            <li><%= link_to "Experiments", experiments_path %></li>
-            <li><%= link_to "new experiment!", new_experiment_path %></li>
+            <li><%= link_to "<i class=\"icon-beaker\"></i>".html_safe+" Experiments", experiments_path %></li>
+            <li><%= link_to "<i class=\"icon-group\"></i>".html_safe+" Users", users_path %></li>
             <%= render 'layouts/loginform' %>
           </ul>
         </div>
