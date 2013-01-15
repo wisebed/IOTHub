@@ -18,7 +18,7 @@ class ExperimentsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @experiment }
+      #format.json { render json: @experiment }
     end
   end
 
@@ -33,7 +33,7 @@ class ExperimentsController < ApplicationController
     end
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @experiments }
+      #format.json { render json: @experiments }
     end
   end
 
@@ -44,7 +44,7 @@ class ExperimentsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @experiment }
+      #format.json { render json: @experiment }
     end
   end
 
@@ -64,10 +64,10 @@ class ExperimentsController < ApplicationController
     respond_to do |format|
       if @experiment.save
         format.html { redirect_to @experiment, notice: 'Experiments was successfully created.' }
-        format.json { render json: @experiment, status: :created, location: @user }
+        #format.json { render json: @experiment, status: :created, location: @user }
       else
         format.html { render action: "new" }
-        format.json { render json: @experiment.errors, status: :unprocessable_entity }
+        #format.json { render json: @experiment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -81,10 +81,10 @@ class ExperimentsController < ApplicationController
     respond_to do |format|
       if @experiment.update_attributes(params[:experiment])
         format.html { redirect_to @experiment, notice: 'Experiment was successfully updated.' }
-        format.json { head :no_content }
+        #format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @experiment.errors, status: :unprocessable_entity }
+        #format.json { render json: @experiment.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -98,7 +98,7 @@ class ExperimentsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to experiments_url }
-      format.json { head :no_content }
+      #format.json { head :no_content }
     end
   end
 

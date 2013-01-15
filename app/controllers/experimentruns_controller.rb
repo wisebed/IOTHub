@@ -35,10 +35,10 @@ class ExperimentrunsController < ApplicationController
       if @run.save
         @run.delay.run!
         format.html { redirect_to experiment_path(params[:experiment_run][:experiment_id]), notice: 'Run was successfully created.' }
-        format.json { render json: @run, status: :created, location: experiment_path(params[:experiment_run][:experiment_id]) }
+        #format.json { render json: @run, status: :created, location: experiment_path(params[:experiment_run][:experiment_id]) }
       else
         format.html { redirect_to experiment_path(params[:experiment_run][:experiment_id]), notice: 'Error while creating Run: ' + @run.errors }
-        format.json { render json: @run.errors, status: :unprocessable_entity }
+        #format.json { render json: @run.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -66,7 +66,7 @@ class ExperimentrunsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to root_path }
-      format.json { head :no_content }
+      #format.json { head :no_content }
     end
   end
 
