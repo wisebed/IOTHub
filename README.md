@@ -21,6 +21,8 @@ Run `rake db:setup` to initialize the database.
 Copy `config/secret_env_vars.yml` from the supplied example version and fill in the secrets and path settings. You might not want to store data in a temp-dir.
 To automatically start the job_worker at system boot time, add the following line (after setting the path to IOTHub) to your users cron file:
 `@reboot /bin/bash -l -c 'cd /path/to/app && RAILS_ENV=production script/delayed_job restart'`.
+**change or delete the default admin user `admin@iothub` AS SOON AS POSSIBLE**
+
 
 ### install nginx+passenger ###
 The most convenient way to get a recent version of nginx with passenger is to let passenger handle the compilation.
