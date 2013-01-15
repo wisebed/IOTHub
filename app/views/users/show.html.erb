@@ -20,5 +20,6 @@
 
 <% if (current_user == @user) or current_user.is_admin? %>
   <%= link_to "<i class=\"icon-pencil\"></i>".html_safe+' Edit', edit_user_path(@user), :class => "btn btn-small" %>
+  <%= link_to "<i class=\"icon-trash\"></i>".html_safe+' Destroy', @user.as_user, confirm: 'Are you sure?', method: :delete, :class => "btn btn-small btn-danger" %>
 <% end %>
                                 

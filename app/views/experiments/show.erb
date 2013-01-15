@@ -29,6 +29,6 @@
 
 <br/>
 <% if current_user == @experiment.user or current_user.is_admin? %>
-    <%= link_to 'Edit', edit_experiment_path(@experiment), :class => "btn btn-small" %>
-    <%= link_to 'Destroy', @experiment, confirm: 'Are you sure?', method: :delete, :class => "btn btn-small btn-danger" %>
+    <%= link_to "<i class=\"icon icon-pencil\"></i>".html_safe+' Edit', edit_experiment_path(@experiment), :class => "btn btn-small" %>
+    <%= link_to "<i class=\"icon-trash\"></i>".html_safe+' Destroy', @experiment, confirm: 'Are you sure?', method: :delete, :class => "btn btn-small btn-danger" %>
 <% end %>

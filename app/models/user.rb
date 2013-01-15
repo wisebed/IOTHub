@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   end
 
   def as_user
-    raise self.to_yaml
+    self
   end
 
   def gravatar_url

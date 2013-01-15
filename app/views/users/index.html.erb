@@ -13,12 +13,12 @@
   <tr>
     <td><%= link_to user.name, user_path(user) %></td>
     <% if user.email.include? "@ github" %>
-            <td><%= link_to user.email, "https://github.com/#{user.email.split(" @ ").first}/" %></td>
+            <td><%= link_to user.email, "https://github.com/#{user.email.split(" @ ").first}/", :target => "_blank" %></td>
         <% else %>
             <td><%= user.email.gsub(/@.*\./,"@****.") %></td>
         <% end %>
 
-    <td><%= link_to("<i class=\"icon-wrench\"></i>".html_safe+' Edit', edit_user_path(user), :class => "btn btn-mini") if current_user.is_admin? %></td>
+    <td><%= link_to("<i class=\"icon-pencil\"></i>".html_safe+' Edit', edit_user_path(user), :class => "btn btn-mini") if current_user.is_admin? %></td>
   </tr>
 <% end %>
   </tbody>
