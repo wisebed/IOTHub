@@ -1,16 +1,20 @@
-<h1>Public experiments:</h1>
+<h1>Public experiments</h1>
 <div class="experimentslist">
 
   <% if @experiments.empty? %>
-    Sorry, no public experiments so far!
+      Sorry, no public experiments so far!
 
-  <il>
-  <% else @experiments.each do |exp| %>
-    <li><%= link_to(exp.name, experiment_path(exp)) %> | <%= link_to(exp.user.name, user_path(exp.user)) %></li> <br />
-  
-    <% end %>
+      <il>
+  <% else
+       @experiments.each do |exp| %>
+          <li><%= link_to(exp.name, experiment_path(exp)) %>
+            | <%= link_to("#{exp.experiment_runs.length.to_s} run".pluralize(exp.experiment_runs.length), experiment_path(exp)) %>
+            | <%= link_to(exp.user.name, user_path(exp.user)) %></li>
+          <br/>
+
+      <% end %>
       </il>
-  
+
   <% end %>
-  
+
 </div>  

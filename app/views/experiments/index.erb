@@ -1,9 +1,19 @@
-<% if @experiments_by_user and !@experiments_by_user.empty? %>
-  <h1> Your experiments: </h1>
-    <il>
-  <% @experiments_by_user.each do |exp| %>
-    <li><%= link_to(exp.name, experiment_path(exp)) %></li><br />
-  <% end %>
-    </il>
-<% end %>
-<%= render "list_public" %>
+<div class="row" style="margin-top: 20px;">
+  <div class="span5">
+    <% if @experiments_by_user and !@experiments_by_user.empty? %>
+        <h1> Your experiments: </h1>
+        <il>
+          <% @experiments_by_user.each do |exp| %>
+              <li><%= link_to(exp.name, experiment_path(exp)) %></li><br />
+          <% end %>
+        </il>
+    <% end %>
+    <%= render "list_public" %>
+  </div>
+  <div class="span4">
+    <p style="margin-top: 20px;">
+        <%= link_to "<i class=\"icon-magic\"></i>".html_safe+" Create new Experiment", new_experiment_path, :class => "btn btn-big" %>
+    </p>
+  </div>
+</div>
+
