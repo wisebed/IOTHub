@@ -1,0 +1,16 @@
+<table class="table-striped">
+  <thead>
+  <tr>
+    <th>Experiment</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% ExperimentRun.last(10).reverse.each do |run| %>
+  <tr>
+    <td><%= run.experiment.name[0..20]+(run.experiment.name.length > 20 ? "..." : "")%></td>
+    <td><%= link_to render(:partial => 'experimentruns/status', :locals => {:run => run}), experiment_run_path(run.experiment.id, run.id) %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>
