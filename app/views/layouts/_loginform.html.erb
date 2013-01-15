@@ -1,20 +1,25 @@
 <% if current_user %>
-    <li>
-      <a href="<%= user_path(current_user) %>" style="padding-right: 0px; margin-left: 200px; padding-top: 5px; padding-bottom: 5px;">
-        <%= raw image_tag(current_user.gravatar_url+"&size=30") %>
+    <li style="margin-left: 200px; margin-top: -5px;">
+      <a href="<%= user_path(current_user) %>">
+        <%= raw image_tag(current_user.gravatar_url+"&size=30", :class => "img-rounded") %>
       </a>
     </li>
-    <li> <%= link_to current_user.email.strip, user_path(current_user), :style => "margin-left: 0px;" %></li>
+    <li  style="margin-left: -20px;">
+      <%= link_to current_user.email.strip, user_path(current_user), :style => "margin-left: 0px;" %></li>
     <% if current_user.user_testbed_credentials.empty? %>
         <li>
           <%= link_to "please add at least one testbed to your account!", edit_user_path(current_user), :style => "color: red;" %>
         </li>
     <% end %>
     <li>
-      <%= button_to "Log out", logout_path, :method => :get, :class => "btn btn-small btn-danger", :style => "margin-top: 10px;" %>
+      <p>
+        <%= link_to "Log out", logout_path, :class => "btn btn-small btn-danger", :style => "margin-top: 10px;" %>
+      </p>
     </li>
 <% else %>
     <li style="margin-left: 200px;">
-      <%= button_to "log in with github.com", "/auth/github", :method => :get, :class => "btn btn-medium" %>
+      <p>
+        <%= link_to("<i class=\"icon-github\"></i> log in with github.com".html_safe, "/auth/github", :class => "btn") %>
+      </p>
     </li>
 <% end %>
