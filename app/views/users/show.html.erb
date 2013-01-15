@@ -10,7 +10,7 @@
   <%= @user.email %>
 </p>
 <p>
-  <b>Experiments:</b></br>
+  <b>Experiments:</b><br />
   <il>
   <% @user.experiments.each do |exp| %>
     <li><%= link_to(exp.name, experiment_path(exp)) %></li> <br />
@@ -18,8 +18,7 @@
   </il>
 </p>
 
-<% if (session["user_id"] == @user.id) %>
-  <%= link_to 'Edit', edit_user_path(@user) %> |
+<% if (current_user == @user) or current_user.is_admin? %>
+  <%= link_to "<i class=\"icon-pencil\"></i>".html_safe+' Edit', edit_user_path(@user), :class => "btn btn-small" %>
 <% end %>
-<%= link_to 'Back', users_path %> 
                                 

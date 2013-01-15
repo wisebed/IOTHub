@@ -18,25 +18,19 @@
     <% else %>
         <div class="field">
           <%= f.label :name %>
-          <br/>
           <%= f.text_field :name %>
         </div>
         <div class="field">
           <%= f.label :email %>
-          <br/>
           <%= f.text_field :email %>
         </div>
         <div class="field">
           <%= f.label :password %>
-          <br/>
           <%= f.password_field :password %>
-        </div>
-        <div class="field">
-          <%= f.label :password_confirmation %> <br/>
-          <%= f.password_field :password_confirmation %>
         </div>
 
     <% end %>
+
 
     <hr>
     Change your testbed credentials here: username, password <br/>
@@ -59,9 +53,17 @@
         <% end %>
     <% end %>
 
+    <% if current_user.is_admin? %>
+        <hr>
+        <div class="field alert alert-error">
+          <%= f.label :is_allowed_to_be_an_admin, "User -> AdminUser (please type 'YES')" %>
+          <%= f.text_field :is_allowed_to_be_an_admin, :name => :is_allowed_to_be_an_admin, :value => "" %>
+        </div>
+    <% end %>
 
+    <br />
     <div class="actions">
-      <%= f.submit %>
+      <%= f.submit :class => "btn btn-primary" %>
     </div>
 
 <% end %>

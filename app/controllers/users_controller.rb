@@ -62,6 +62,13 @@ class UsersController < ApplicationController
 
     @user = User.find(params[:id])
 
+    # updates User to AdminUser
+    if current_user.is_admin?
+      if params[:is_allowed_to_be_an_admin] and params[:is_allowed_to_be_an_admin] == 'YES'
+        @user.type="AdminUser"
+      end
+    end
+
     # update the UserTestbedCrendetials here:
     existing_credentials = @user.user_testbed_credentials
     params[:credentials].each_value do |h|
