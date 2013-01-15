@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
     false
   end
 
+  def as_user
+    raise self.to_yaml
+  end
+
   def gravatar_url
     self.avatar_url || 'http://www.gravatar.com/avatar/'+Digest::MD5.hexdigest(self.email)+"?size=#{40}"
   end
