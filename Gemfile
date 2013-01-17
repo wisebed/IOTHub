@@ -54,5 +54,8 @@ gem 'delayed_job_active_record'
 gem "daemons"
 
 
-gem "wisebedclientruby", ">=0.0.49"
+gem "wisebedclientruby", ">=0.0.50"
 gem "simpleblockingwebsocketclient"
+
+# we want passenger standalone as application server
+gem 'passenger'
