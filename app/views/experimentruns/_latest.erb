@@ -8,7 +8,7 @@
   <tbody>
   <% ExperimentRun.last(10).reverse.each do |run| %>
   <tr>
-    <td><%= run.experiment.name[0..20]+(run.experiment.name.length > 20 ? "..." : "")%></td>
+    <td><%= link_to "#{run.experiment.name[0..20]+(run.experiment.name.length > 20 ? "..." : "")}", experiment_path(run.experiment)%></td>
     <td><%= link_to render(:partial => 'experimentruns/status', :locals => {:run => run}), experiment_run_path(run.experiment.id, run.id) %></td>
   </tr>
   <% end %>

@@ -25,12 +25,10 @@
         </div>
         <div class="field">
           <%= f.label :testbed, "Shortname of testbed (uzl, ...)" %>
-          <%#= f.text_field :testbed %>
           <%= f.select :testbed, current_user.user_testbed_credentials.collect {|tb| tb.shortname } %>
-          <%#= f.select_field :testbed, options_from_collection_for_select(current_user.user_testbed_credentials, :shortname, :shortname) %>
         </div>
         <%= f.hidden_field :experiment_id, {:value => @experiment.id} %>
-        <%= f.submit %>
+        <%= f.submit :class => "btn btn-primary" %>
         </div>
     <% end %>
 <% end %>
