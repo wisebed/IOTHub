@@ -1,25 +1,26 @@
 set :application, "IOTHub"
-set :repository,  "https://github.com/MrMarvin/IOTHub.git"
+set :repository,  "git://github.com/wisebed/IOTHub.git"
 set :brach, "master"
 
-# set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
-
-role :web, "localhost:2222"                          # Your HTTP server, Apache/etc
-role :app, "localhost:2222"                          # This may be the same as your `Web` server
-role :db,  "localhost:2222", :primary => true       # This is where Rails migrations will run
-set :user, "marv"
+role :web, "wisebed.itm.uni-luebeck.de"                          # Your HTTP server, Apache/etc
+role :app, "wisebed.itm.uni-luebeck.de"                          # This may be the same as your `Web` server
+role :db,  "wisebed.itm.uni-luebeck.de", :primary => true       # This is where Rails migrations will run
+set :user, "iothub"
 set :deploy_to, "/home/#{user}/#{application}"
 set :use_sudo, false
 
 require "rvm/capistrano"
-set :rvm_type, :system
+set :rvm_type, ""
 
 after "deploy:update_code" do
   run "cp #{File.join(deploy_to,"config","secret_env_vars.yml")} #{File.join(current_release,"config","secret_env_vars.yml")}"
   run "cp #{File.join(deploy_to,"config","database.yml")} #{File.join(current_release,"config","database.yml")}"
+end
+after "deploy:update_code", "bundle:install"
+after "deploy:update_code" do
   run "cd #{current_release} && RAILS_EVN=production bundle exec rake assets:precompile"
 end
+
 
 # If you are using Passenger mod_rails uncomment this:
 namespace :deploy do
@@ -27,6 +28,13 @@ namespace :deploy do
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
+  end
+end
+
+namespace :bundle do
+  desc "run bundle install and ensure all gem requirements are met"
+  task :install do
+    run "cd #{current_release} && bundle install  --without=test"
   end
 end
 
