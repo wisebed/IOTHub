@@ -2,7 +2,7 @@ IOTHub
 ======
 
 A web-app to run and show your wisebed experiments.
-See it live: http://wisebed.itm.uni-luebeck.de:8886/
+See it live: http://wisebed.itm.uni-luebeck.de:8887/
 
 ## Installation ##
 
