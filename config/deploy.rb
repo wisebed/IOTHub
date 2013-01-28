@@ -18,17 +18,16 @@ after "deploy:update_code" do
 end
 after "deploy:update_code", "bundle:install"
 after "deploy:update_code" do
-  run "cd #{current_release} && RAILS_EVN=production bundle exec rake assets:precompile"
+  run "cd #{current_release} && RAILS_ENV=production bundle exec rake assets:precompile"
 end
 
-
-# If you are using Passenger mod_rails uncomment this:
-namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{File.join(current_path,'tmp','restart.txt')}"
-  end
+before "deploy:create_symlink" do
+  run "chmod +x #{current_release}/config/initscript.sh"
+  run "#{current_release}/config/initscript.sh stop"
+end
+after "deploy:create_symlink" do
+  run "chmod +x #{current_release}/config/initscript.sh"
+  run "#{current_release}/config/initscript.sh start"
 end
 
 namespace :bundle do
