@@ -3,6 +3,9 @@ class ExperimentRun < ActiveRecord::Base
   belongs_to :user
   belongs_to :testbed
 
+  validates_presence_of :user, :testbed, :experiment, :download_config_url
+  validates_numericality_of :runtime, :greater_than => 0
+
   after_save :init_backend!
 
   require 'wisebedclientruby'

@@ -1,13 +1,15 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
-  attr_accessible :name, :email, :password, :password_confirmation
-
-  validates_presence_of :name
 
   has_many :experiments
   has_many :user_testbed_credentials, :dependent => :delete_all
   has_many :experiment_runs
-  
+
+  attr_accessible :name, :email, :password, :password_confirmation
+
+  validates_presence_of :name, :email
+
+
   def is_admin?
     false
   end
