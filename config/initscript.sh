@@ -22,7 +22,7 @@ DESC=iothub
 
 test -x $PASSENGER || exit 0
 
-set -e
+#set -e
 
 case "$1" in
   start)
