@@ -2,12 +2,16 @@
 
 <p>
   <b>Name:</b>
-  <%= @user.name %>
+  <%= @user.name %> <% if @user.is_admin? %> <span class="label label-important">Admin</span> <% end %>
 </p>
 
 <p>
   <b>Email:</b>
-  <%= @user.email %>
+  <% if @user.github_uid %>
+        <%= link_to @user.email, "https://github.com/#{@user.email.split("@")[0]}" %>
+      <% else %>
+        <%= @user.email %>
+  <% end %>
 </p>
 <p>
   <b>Experiments:</b><br />
