@@ -100,7 +100,13 @@ class ExperimentRun < ActiveRecord::Base
         if self.reservation and self.start_time
           # if we have a reservation, run this again at the starting time
           puts "[#{Time.now} | #{self.id}] has a reservation and a start_time. Creating new job for the start_time (#{self.start_time})"
-          self.delay(:run_at => self.start_time).run!
+          if start_time > Time.now
+            self.delay(:run_at => self.start_time).run!
+          else
+            puts "[#{Time.now} | #{self.id}] but start_time is in the past, abandoning this job!"
+            raise "could not start the experiment at its reservation time!"
+          end
+
         else
           # however if not reserved yet, just try again in a minute
           puts "[#{Time.now} | #{self.id}] has no reservation. Creating new job for retry in 1 minute!"
