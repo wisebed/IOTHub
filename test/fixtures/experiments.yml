@@ -1,11 +1,6 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+one:
+  name: 'Packet Tracking'
+  user_id: experimenteur.id
+  visibility: 'public'
+  default_download_config_url: "https://raw.github.com/itm/wisebed-experiments/master/packet-tracking/config.json"
+  description: "A WISEBED experiment that simply collect all received and send packages on all nodes."
