@@ -37,7 +37,8 @@ class ExperimentrunsController < ApplicationController
         format.html { redirect_to experiment_path(params[:experiment_run][:experiment_id]), notice: 'Run was successfully created.' }
         #format.json { render json: @run, status: :created, location: experiment_path(params[:experiment_run][:experiment_id]) }
       else
-        format.html { redirect_to experiment_path(params[:experiment_run][:experiment_id]), notice: 'Error while creating Run: ' + @run.errors }
+        format.html { redirect_to experiment_path(params[:experiment_run][:experiment_id]), alert: @run.errors.messages }
+        #format.html { raise @run.errors.messages.to_yaml}
         #format.json { render json: @run.errors, status: :unprocessable_entity }
       end
     end
