@@ -47,7 +47,7 @@ module DataBackends
 
     # @return [String] the absolut path to given file
     def get_static_path(filename)
-      File.join(@path,sanitize(filename))
+      File.join(@path, sanitize(filename))
     end
 
     # Generates a config object with links to config and bins and list of nodes
@@ -57,11 +57,18 @@ module DataBackends
       def @parsed_config.nodes
         return @nodes unless @nodes.nil?
 
-        require 'open-uri'
-        node_links = self["configurations"].inject(Array.new) {|a,c| a << c["nodeUrnsJsonFileUrl"] }
         @nodes = []
+        # maybe its a string, use it as an url and request the node array
+        require 'open-uri'
+        node_links = self["configurations"].inject(Array.new) { |a, c| a << c["nodeUrnsJsonFileUrl"] }
         node_links.each do |link|
-          @nodes = @nodes.concat(JSON.parse(open(link).read)["nodeUrns"])
+          if link[0..6] =~ /^http..\//
+            # if its an api call, call it
+            @nodes = @nodes.concat(JSON.parse(open(link).read)["nodeUrns"])
+          else
+            # if not, we have already downloaded it, read it.
+            @nodes = JSON.parse(File.open(File.join(@path, File.basename(link)), "r").read)
+          end
         end
         @nodes
       end
@@ -76,8 +83,8 @@ module DataBackends
     def init_config
 
       # if the config file is already locally stored, simply parse that and return
-      if File.exists?(File.join(@path,"flash_config.json"))
-        @parsed_config = JSON.parse(File.open(File.join(@path,"config.json"),"r").read)
+      if File.exists?(File.join(@path, "flash_config.json"))
+        @parsed_config = JSON.parse(File.open(File.join(@path, "config.json"), "r").read)
         return
       end
 
@@ -86,13 +93,27 @@ module DataBackends
       # otherwise: download the config and all referred binaries
       require 'open-uri'
       # TODO: think about security. Should be safe as long as this is not stored in web-root or something...
-      File.open(File.join(@path,"config.json"), 'wb') do |f|
+      File.open(File.join(@path, "config.json"), 'wb') do |f|
         f.write(open(@exp_run_obj.download_config_url).read) # downloading!
         event_log.log "downloading: #{@exp_run_obj.download_config_url}"
       end
-      @parsed_config = JSON.parse(File.open(File.join(@path,"config.json"),"r").read)
+      @parsed_config = JSON.parse(File.open(File.join(@path, "config.json"), "r").read)
 
       @parsed_config["configurations"].each do |c|
+
+        # download the json
+        filename = sanitize(c["nodeUrnsJsonFileUrl"].split("/").last)
+
+        # If the url looks like a http link, use the full url, otherwise concat
+        # the filename on the base path of the download link.
+        download = (c["nodeUrnsJsonFileUrl"][0..6] =~ /^http..\//) ? c["nodeUrnsJsonFileUrl"] : @exp_run_obj.download_config_url.split("/")[0..-2].join("/")+"/"+c["nodeUrnsJsonFileUrl"]
+
+        File.open(File.join(@path, filename), 'wb') do |f|
+          f.write(open(download).read) # download!
+          event_log.log "downloading: #{download}"
+        end
+
+        # download the binary
         filename = sanitize(c["binaryProgramUrl"].split("/").last)
 
         # If the url looks like a http link, use the full url, otherwise concat
@@ -111,7 +132,7 @@ module DataBackends
       end
 
       # if we just downloaded things, lets calculate the checksum
-      @exp_run_obj.update_attribute(:config_checksum,init_checksum)
+      @exp_run_obj.update_attribute(:config_checksum, init_checksum)
     end
 
     # Calculates a checksum over all relevant local files
@@ -122,9 +143,9 @@ module DataBackends
         @checksum = @exp_run_obj.config_checksum
       else
         require "digest/sha1"
-        long_checksum_string = Dir.glob(@path+"/*.{json,txt,bin}").sort.inject("") do |c,f|
+        long_checksum_string = Dir.glob(@path+"/*.{json,txt,bin}").sort.inject("") do |c, f|
           # Calculate checksum for every file and concat them
-          c += Digest::SHA1.hexdigest(File.open(f,"r").read)
+          c += Digest::SHA1.hexdigest(File.open(f, "r").read)
         end
         # "compress" the concated checksums by checksumming
         @checksum = Digest::SHA1.hexdigest(long_checksum_string)
@@ -138,7 +159,7 @@ module DataBackends
     #
     # @return [String] the clean(er) string
     def sanitize(name)
-      CGI.escape(File.basename(name.gsub("\000","")))
+      CGI.escape(File.basename(name.gsub("\000", "")))
     end
 
     # The log file to write the log to. Should be closed after usage.
@@ -153,7 +174,7 @@ module DataBackends
     #
     # @return void
     def open_log
-      @log = File.open(@path+"/log.json","w")
+      @log = File.open(@path+"/log.json", "w")
     end
 
     # A list of files that are saved for this experimentrun.
@@ -197,7 +218,7 @@ module DataBackends
       @event_log.instance_variable_set(:@location, file)
       @event_log.define_singleton_method(:log) do |line|
         self.push({:t => Time.now, :l => line})
-        File.open(@location,"w") { |f| f.write self.to_json }
+        File.open(@location, "w") { |f| f.write self.to_json }
       end
 
     end
