@@ -1,7 +1,7 @@
 <% if current_user %>
     <li style="margin-left: 200px; margin-top: -5px;">
       <a href="<%= user_path(current_user) %>">
-        <%= raw image_tag(current_user.gravatar_url+"&size=30", :class => "img-rounded") %>
+        <%= raw image_tag(current_user.gravatar_url+"&size=30", :class => "img-rounded", :width => "30px", :height => "30px") %>
       </a>
     </li>
     <li  style="margin-left: -20px;">
