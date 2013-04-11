@@ -19,8 +19,9 @@ class ApplicationController < ActionController::Base
 
 
   def rescue_with_handler(exception)
-    #raise exception.to_yaml
-    #redirect_to '/500.html'
+    if exception.is_a? SecurityError
+      redirect_to '/'
+    end
   end
 
 end
