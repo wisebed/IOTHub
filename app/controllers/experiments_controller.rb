@@ -78,6 +78,9 @@ class ExperimentsController < ApplicationController
     @experiment = Experiment.find(params[:id])
     raise SecurityError unless (@experiment.user == current_user) or current_user_is_admin?
 
+    # updates the visibility from checkbox to "public" or "private"
+    params[:experiment][:visibility]= params[:experiment][:visibility] == "1" ? "public" : "private"
+
     respond_to do |format|
       if @experiment.update_attributes(params[:experiment])
         format.html { redirect_to @experiment, notice: 'Experiment was successfully updated.' }
