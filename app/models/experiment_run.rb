@@ -6,6 +6,8 @@ class ExperimentRun < ActiveRecord::Base
   validates_presence_of :user, :testbed, :experiment, :download_config_url
   validates_numericality_of :runtime, :greater_than => 0
 
+  scope :public, joins('left outer join experiments on experiments.id=experiment_runs.experiment_id').where('experiments.visibility = \'public\' ')
+
   after_save :init_backend!
 
   require 'wisebedclientruby'
