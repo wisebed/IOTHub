@@ -18,7 +18,7 @@
     <div id="experiment_run">
       <%= submit_tag 'Run this experiment!', :disable_with => "Please wait...", :id => :experiment_run_button, :class => "btn btn-primary" %>
     </div>
-    <% if @run.user == current_user or current_user.is_admin? %>
+    <% if @run.user == current_user or current_user_is_admin? %>
         <br/>
         <%= link_to "<i class=\"icon-trash\"></i>".html_safe+' Destroy!', @run, confirm: 'Are you sure?', :class => "btn btn-small btn-danger", :method => :delete %>
     <% end %>

@@ -18,7 +18,7 @@
             <td><%= user.email.gsub(/@.*\./,"@****.") %></td>
         <% end %>
 
-    <td><%= link_to("<i class=\"icon-pencil\"></i>".html_safe+' Edit', edit_user_path(user), :class => "btn btn-mini") if current_user.is_admin? %></td>
+    <td><%= link_to("<i class=\"icon-pencil\"></i>".html_safe+' Edit', edit_user_path(user), :class => "btn btn-mini") if current_user_is_admin? %></td>
   </tr>
 <% end %>
   </tbody>

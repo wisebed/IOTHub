@@ -11,7 +11,8 @@ def gravatar_url(email,gravatar_options={})
   grav_url
 end
 
-
-
+def current_user_is_admin?
+  current_user && current_user.is_admin?
+end
 
 end

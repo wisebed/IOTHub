@@ -62,7 +62,7 @@ class ExperimentrunsController < ApplicationController
   # DELETE /experiments/:experiment_id/runs/:run_id
   def destroy
     @run = ExperimentRun.find(params[:id])
-    raise SecurityError unless (@run.user == current_user) or current_user.is_admin?
+    raise SecurityError unless (@run.user == current_user) or current_user_is_admin?
     @run.destroy
 
     respond_to do |format|

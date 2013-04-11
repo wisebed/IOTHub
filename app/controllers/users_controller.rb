@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  skip_before_filter :require_login, :only => [:show, :index, :new, :create]
+  skip_before_filter :require_login, :only => [:new, :create]
+  before_filter :require_admin_user, :only => :index
+
   # GET /users
   # GET /users.json
   def index
@@ -35,7 +37,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    raise SecurityError unless (params[:id].to_i == current_user.id) or current_user.is_admin?
+    raise SecurityError unless (params[:id].to_i == current_user.id) or current_user_is_admin?
     @user = User.find(params[:id])
   end
 
@@ -58,12 +60,12 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update
-    raise SecurityError unless (params[:id].to_i == current_user.id) or current_user.is_admin?
+    raise SecurityError unless (params[:id].to_i == current_user.id) or current_user_is_admin?
 
     @user = User.find(params[:id])
 
     # updates User to AdminUser
-    if current_user.is_admin?
+    if current_user_is_admin?
       if params[:is_allowed_to_be_an_admin] and params[:is_allowed_to_be_an_admin] == 'YES'
         @user.type="AdminUser"
       end
@@ -109,7 +111,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    raise SecurityError unless (params[:id].to_i == current_user.id) or current_user.is_admin?
+    raise SecurityError unless (params[:id].to_i == current_user.id) or current_user_is_admin?
 
     @user = User.find(params[:id])
     if @user.experiments.empty? and @user.experiment_runs.empty?

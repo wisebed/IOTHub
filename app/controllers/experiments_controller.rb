@@ -10,7 +10,7 @@ class ExperimentsController < ApplicationController
   def show
     @experiment = Experiment.find(params[:id])
 
-    unless !current_user or current_user.is_admin? or @experiment.visibility == "public" or current_user.id == @experiment.user_id
+    unless current_user_is_admin? or @experiment.visibility == "public" or @experiment.user == current_user
       #@experiemnt_alternatives = find_alternatives_for(@experiment)
       render '_notpublic'
       return
@@ -51,7 +51,7 @@ class ExperimentsController < ApplicationController
   # GET /experiements/1/edit
   def edit
     @experiment = Experiment.find(params[:id])
-    raise SecurityError unless (@experiment.user == current_user) or current_user.is_admin?
+    raise SecurityError unless (@experiment.user == current_user) or current_user_is_admin?
   end
 
   # POST /experiements
@@ -76,7 +76,7 @@ class ExperimentsController < ApplicationController
   # PUT /experiements/1.json
   def update
     @experiment = Experiment.find(params[:id])
-    raise SecurityError unless (@experiment.user == current_user) or current_user.is_admin?
+    raise SecurityError unless (@experiment.user == current_user) or current_user_is_admin?
 
     respond_to do |format|
       if @experiment.update_attributes(params[:experiment])
@@ -93,7 +93,7 @@ class ExperimentsController < ApplicationController
   # DELETE /experiements/1.json
   def destroy
     @experiment = Experiment.find(params[:id])
-    raise SecurityError unless (@experiment.user == current_user) or current_user.is_admin?
+    raise SecurityError unless (@experiment.user == current_user) or current_user_is_admin?
     @experiment.destroy
 
     respond_to do |format|

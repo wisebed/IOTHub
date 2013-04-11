@@ -13,4 +13,14 @@ class ApplicationController < ActionController::Base
     redirect_to login_url, :alert => "log in to access this page."
   end
 
+  def current_user_is_admin?
+    current_user && current_user.is_admin?
+  end
+
+
+  def rescue_with_handler(exception)
+    #raise exception.to_yaml
+    #redirect_to '/500.html'
+  end
+
 end
